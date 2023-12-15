@@ -11,7 +11,7 @@ Ragas (**R** **A**dvanced **G**allery for **A**nalysis of
 **S**ingle-cell Data) is an R package that provides enhanced analysis
 and visualization for single-cell RNA-Seq. Developed under a unique
 consideration for [subcluster
-analysis](https://github.com/jig4003/Ragas-dev/blob/main/vignettes/subcluster.md),
+analysis](https://github.com/jig4003/Ragas/blob/main/vignettes/subcluster.md),
 Ragas offers functions that seamlessly integrates essential components
 of the subcluster analysis. Ragas has the following unique advantages:
 -   **Unified data structure**  
@@ -33,8 +33,8 @@ of the subcluster analysis. Ragas has the following unique advantages:
 Documentation
 ===
 Read the following tutorials for a jump-start:
--   [**Tutorial: A quick start guide**](https://github.com/jig4003/Ragas-dev/blob/main/vignettes/QuickStart.md) 
--   [**Tutorial: Ragas for subcluster analysis**](https://github.com/jig4003/Ragas-dev/blob/main/vignettes/subcluster.md)
+-   [**Tutorial: A quick start guide**](https://github.com/jig4003/Ragas/blob/main/vignettes/QuickStart.md) 
+-   [**Tutorial: Ragas for subcluster analysis**](https://github.com/jig4003/Ragas/blob/main/vignettes/subcluster.md)
 
 Installation
 ===
@@ -49,7 +49,7 @@ devtools::install_github("davidsjoberg/ggsankey", upgrade = "never")
 ```
 4. Install the Ragas package from github
 ```r
-devtools::install_github("jig4003/Ragas-dev", upgrade = "never")
+devtools::install_github("jig4003/Ragas", upgrade = "never")
 ```
 5. In case users receive a version inconsistency warning about TMB (e.g., "Warning in checkDepPackageVersion(dep_pkg = "TMB"): Package version inconsistency detected...), reinstall glmmTMB
 ```r
