@@ -1,0 +1,16 @@
+Package: Ragas
+Type: Package
+Title: R Advanced Gallery for Analysis of Single-cell Data
+Version: 0.1.0
+Authors@R: c(
+    person(given = "Jinghua", family = "Gu", email = "jig4003@med.cornell.edu", role = c("aut", "cre")),
+    person(given = "Uthra", family = "Balaji", email = "utb4001@med.cornell.edu", role = c("aut")),
+    person(given = "Virginia", family = "Pascual", email = "vip2021@med.cornell.edu", role = "fnd"))
+Maintainer: Jinghua Gu <jig4003@med.cornell.edu>
+Description: An R package for analysis and visualization of single-cell RNA-Seq data
+License: GPL3
+Depends: Seurat
+Imports: ggplot2, randomcoloR, SingleCellExperiment, Matrix, future, dplyr, reshape2, scales, ComplexHeatmap, grid, circlize, gplots, muscat, limma, ggtree, patchwork, ggprism, rstatix, cowplot, aplot, crayon, ggsankey
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1

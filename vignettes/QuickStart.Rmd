@@ -1,0 +1,286 @@
+---
+title: "A quick guide to Ragas"
+author: "Jinghua Gu, Uthra Balaji" 
+date: "11/08/2023"
+output: 
+  rmarkdown::github_document:
+    toc: TRUE
+    number_sections: TRUE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This is a tutorial for the Ragas package.
+
+# Introduction 
+## The post-integration (Pi) object
+First, load the Ragas package.
+```{r}
+library(Ragas)
+csle.pbmc.small
+```
+
+The above Seurat object is one of the example objects from the Ragas package, which is part of the scRNA-Seq data profiling PBMCs from healthy (cHD) and SLE (cSLE) children (https://www.nature.com/articles/s41590-020-0743-0). To perform Ragas analysis, we need to create a post-integration (Pi) object based on the Seurat object. A post-integration object is a single-cell data object that have been normalized, batch integrated, and performed UMAP and clustering analysis. Note: in our analysis, we used  [Harmony](https://portals.broadinstitute.org/harmony/articles/quickstart.html) to perform batch integration. Run ? Pi to see more details regarding data structure of the Pi object. 
+
+For demonstrative purpose, we have pre-built a Pi object called "csle.pbmc.pi" based on the example Seurat object (csle.pbmc.small), which is released with the Ragas package as part of the example data. To return a summary of preprocessed data in csle.pbmc.pi, simply print the object name in the R console:
+```{r}
+csle.pbmc.pi
+```
+A Pi object uses six fields to store analytical data. In the above example, five out of the six Pi fields have been filled, including:
+
+&ensp;(1) "seurat.obj": a Seurat object<br> 
+&ensp;(2) "exp.freq": a PiData object that stores per gene expression frequency per cluster. Run ? PiData for more details<br> 
+&ensp;(3) "markers": a PiData object that stores FindMarkers results for each cluster<br>
+&ensp;(4) "ds": a PiData object that stores differential state analysis results from pseudobulk analysis<br>
+&ensp;(5) "cell.prop": a PiData object that stores differential proportion analysis results<br>
+
+The "parent.meta.data" field is used to store metadata from the "parent" of the current Seurat object in subcluster analysis. A PBMC object can be a parent of multiple child objects, such as for B cell, T cell, and monocyte. A B cell object can further be the parent of memory and naive B cell objects. Since the PBMC object is at the top of the subcluster hierarchy, no parent can be defined. Therefore, the "parent.meta.data" field of the example Pi object is not set. See the [**Subclustering Analysis Vignette**](https://github.com/jig4003/Ragas.dev/blob/main/vignettes/subcluster.md) for more formal explanation of parent and child objects in single-cell subcluster analysis.
+
+## Create a Pi object
+Now, let's initialize a new Pi from scratch.
+```{r}
+my.pbmc.pi <- CreatePostIntegrationObject(object = csle.pbmc.small)
+my.pbmc.pi
+```
+The above code creates a "minimum" Pi object that only contains a Seurat object. Note that in this case no data from subcluster analysis have been integrated. If a user has additional objects from subcluster analysis, one can follow the [**Subclustering Analysis Vignette**](https://github.com/jig4003/Ragas.dev/blob/main/vignettes/subcluster.md) to re-project refined subcluster identities to PBMC.
+
+Once a Pi object has been created, one can first run UMAP and check clusters of all the cells in the object. 
+```{r, fig.width = 4,fig.height = 3.5}
+RunDimPlot(object = my.pbmc.pi)
+```
+
+The RunDimPlot function is simply a wrapper of the Seurat's DimPlot function with some small modifications, such as to use random colors to code clusters. **By default, RunDimPlot and other Ragas functions assume that the default cell identity is stored in the metadata column named "seurat_clusters"**. In case users want to pull and visualize a different metadata column for cell identity (e.g., manually annotated cell clusters or that re-projected from subcluster analysis), one can change the cell identity by modifying the "group.by" or "ident" argument of the corresponding functions. Now, let's re-plot the UMAP and label the clusters by manually annotated cluster names in a metadata column called "cluster.annotation".
+```{r, fig.width = 5,fig.height = 4}
+RunDimPlot(object = my.pbmc.pi,
+           group.by = "cluster.annotation")
+```
+
+For the rest of this tutorial, we will use metadata "cluster.annotation" to assign cluster identity and group cells.
+
+# Analysis
+Ragas provides a user-friendly interface to integrate and visualize several "house-keeping" single-cell analysis functions, including marker analysis, differential state analysis using pseudobulk method, and differential cell proportion analysis.
+
+## Marker analysis and matrix plot
+
+### Wrapper for FindAllMarkers on a Pi object
+Users can call the FindAllMarkers function from Seurat by running the wrapper function RunFindAllMarkers, which will store the marker results in the Pi object for later visualization.
+```{r}
+my.pbmc.pi <- RunFindAllMarkers(my.pbmc.pi,
+                                ident = "cluster.annotation")
+my.pbmc.pi
+```
+After running RunFindAllMarkers, a new data field called "markers" will be added to the current Pi object, which contains results with a long, unique identifier called "Markers|cluster.annotation|AllMarkers|test.use=wilcox". This unique identifier can be used to retrieve marker results. To take a closer look at the new marker analysis results, one can access corresponding data using "[[".
+```{r}
+my.pbmc.pi[["markers"]]
+```
+
+### Matrix plot
+Once the marker analysis is done, the top markers from each cluster can be plotted using matrix plot, inspired by Scanpy's [MatrixPlot](https://scanpy.readthedocs.io/en/stable/generated/scanpy.pl.matrixplot.html).
+
+```{r, fig.width = 10,fig.height = 4}
+RunMatrixPlot(my.pbmc.pi,
+              markers.key = "Markers|cluster.annotation|AllMarkers|test.use=wilcox", 
+              column.anno.name.rot = 45, 
+              heatmap.height = 6)
+```
+
+## Pseudobulk analysis
+Another important task in single-cell research is to identify differentially expressed genes between conditions for each cluster, which is also known as differential state (DS) analysis. We used functions from the [muscat](https://www.nature.com/articles/s41467-020-19894-4) package to perform pseudobulk analysis for muti-sample multi-group scRNA-Seq design.
+
+### Calculate expression frequencies
+Before running pseudobulk analysis, we need to first perform expression frequency analysis. Genes that are low expressers for a given cluster will be filtered out in the final pseudobulk output.
+```{r}
+my.pbmc.pi <- CalculateExpFreqs(my.pbmc.pi, 
+                                ident = "cluster.annotation",
+                                verbose = FALSE)
+```
+This will create a new object that contains the percentage of gene expression for every gene per cluster under the "exp.freq" field of the Pi object, which will be retrieved and used by the other functions (e.g., DSDotPlot).
+```{r}
+my.pbmc.pi
+```
+
+### Run pseudobulk analysis
+To run pseudobulk analysis, simply run:
+```{r}
+my.pbmc.pi <- RunPseudobulkAnalysis(object = my.pbmc.pi,
+                                    ident.var = "cluster.annotation",
+                                    group.var = "Groups",
+                                    sample.var = "Names",
+                                    group.1 = "cSLE",
+                                    group.2 = "cHD")
+my.pbmc.pi
+```
+A new data field called "ds" (differential state) is now added to the Pi object. 
+
+### Visualize pseudobulk results with DSDotPlot
+We have developed a new type of dot plot called Differential State Dot Plot (DSDotPlot) to visualize the fold change and statistical significance of pseudobulk analysis for each cluster. Users need to provide keys/identifiers to expression frequency data and pseudobulk analysis results in the Pi object. By default, genes with an expression frequency smaller than 10% will be filtered out to avoid visualizing low, "background-like" expression, but this behavior can be modified by changing the "exp.freq.filter" argument.
+```{r, fig.width = 8,fig.height = 8}
+RunDSDotPlot(object = my.pbmc.pi,
+             exp.freq.key = "ExpFreq|cluster.annotation|cutoff=0",
+             ds.key = "DS|cluster.annotation|edgeR|group=Groups;sample=Names;gp1=cSLE;gp2=cHD;contrast=cSLE-cHD", 
+             p.filter = 0.05,
+             FC.filter = 4,
+             to.adjust = TRUE
+                    )
+```
+
+## Proportion analysis
+Ragas also provides a rich set of functions to visualize cell proportion data. There are two methods for proportion analysis: pooled and unpooled. Pooled proportion analysis has been widely used in single-cell research, while its main disadvantage is that we lose track of the biological replicates by pooling all cells from all samples, which makes it hard to evaluate the variability of cell proportions. Therefore, for multi-sample multi-group designs, unpooled proportions are preferred. 
+
+### Pooled proportion plot
+When using the "pooled" plot, users can further choose one of the following two methods to calculate proportion: either by "cluster" or by "group". 
+
+#### by cluster
+When "pooled.prop.by" is set to "cluster", the cell proportion for a given group in a given cluster is normalized by the total number of cells in the corresponding cluster. In this case, for a particular cluster, the cell proportions of different groups should always sum up to 1. 
+
+```{r, fig.width = 6,fig.height = 2.5}
+RunProportionPlot(csle.pbmc.small, ## input can be a Seurat object
+                  ident = "cluster.annotation",
+                  group.by = "Groups",
+                  method = "pooled",
+                  pooled.prop.by = "cluster", ## default
+                  axis.text.angle = 45,
+                  axis.text.size = 8,
+                  return.value = 'ggplot'
+                  )
+```
+
+If we exchange inputs for arguments "ident" and "group.by", which will lead to a different bar plot showing cell proportions for all clusters normalized by the total number of cells in each group. This is essentially a stacked version of pooling cell proportions "by group" (see next section), except the bar plots are stacked.
+```{r, fig.width = 4,fig.height = 5}
+my.pbmc.pi <- RunProportionPlot(my.pbmc.pi, ## if input is a Pi object, an updated Pi object will be the returned by default
+                                ident = "Groups",
+                                group.by = "cluster.annotation",
+                                method = "pooled",
+                                pooled.prop.by = "cluster", ## default
+                                axis.text.size = 8)
+## A new data field called "cell.prop" will be added to the Pi object.
+my.pbmc.pi 
+```
+
+#### by group
+In the alternative case, users can plot the cell proportions by group, which means the cell counts for a given group in a given cluster are normalized by the total number of cells for each group.
+```{r, fig.width = 5,fig.height = 3}
+my.pbmc.pi <- RunProportionPlot(my.pbmc.pi,
+                                ident = "cluster.annotation",
+                                group.by = "Groups",
+                                method = "pooled",
+                                pooled.prop.by = "group",
+                                axis.text.size = 8)
+my.pbmc.pi ## a second object added under cell.prop
+```
+
+### Unpooled proportion plot
+The unpooled proportion plot is suitable for multi-sample, multi-group study design, which allows comparing average cell proportions between groups of interest, as well as evaluating their variabilities within each group. 
+
+#### Unpooled boxplot
+```{r, fig.width = 5,fig.height = 5}
+my.pbmc.pi <- RunProportionPlot(my.pbmc.pi,
+                  ident = "cluster.annotation",
+                  group.by = "Groups",
+                  method = "unpooled",
+                  unpool.by = "Names",
+                  unpool.ncol = 3,
+                  title.text.size = 6)
+```
+
+#### Unpooled barplot
+```{r, fig.width = 5,fig.height = 5}
+my.pbmc.pi <- RunProportionPlot(my.pbmc.pi,
+                                ident = "cluster.annotation",
+                                group.by = "Groups",
+                                method = "unpooled",
+                                unpool.by = "Names",
+                                unpool.plot.type = "barplot",
+                                unpool.ncol = 3,
+                                title.text.size = 6)
+```
+
+### Notes on subcluster analysis
+In subcluster analysis, we often need to calculate multiple cell proportions with respect to different "total cells". For instance, for a given T cell subpopulation, say Th1, we may be interested in its proportional change within the total CD4 memory T cells, total CD4 T cells, total T cells, or total PBMC. Each of the proportion normalized by different total cells represent a valid biological hypothesis and Ragas gives users the flexibility to calculate different cell proportions by changing parental objects. Please go to the [**Subclustering Analysis Vignette**](https://github.com/jig4003/Ragas.dev/blob/main/vignettes/subcluster.md) for more a detailed example.
+
+# Miscellaneous visualization
+Single-cell researchers often want to investigate the data with a set of their own markers. This can be achieved by running dot plots, violin plots, and heatmaps, etc.
+
+## Annotated dot plot
+In Ragas, we re-developed the original [DotPlot](https://satijalab.org/seurat/reference/dotplot) function from Seurat by adding several useful new features, including feature annotation and identity clustering. By default, random colors will be generated for feature annotations, but users are allowed to assign their customized colors.
+```{r, fig.width = 8,fig.height = 5}
+my.list <- list(Monocytes = c("CD14","FCGR3A"),
+                B = "MS4A1",
+                T = c("CCR7", "CD8A"),
+                NK = "NKG7")
+RunAnnotatedDotPlot(object = my.pbmc.pi,
+                    annotations = my.list,
+                    annotation.cols = c( 'Monocytes'= 'tomato', 'B' = 'seagreen', 'T' = 'steelblue', 'NK' = 'purple'),
+                    group.by = "cluster.annotation")
+```
+
+
+## Stacked violin plot
+Another useful function to visualize expression levels of a set of features across clusters is the stacked violin plot. 
+```{r, fig.width = 4,fig.height = 7}
+RunStackedVlnPlot(my.pbmc.pi,
+                  ident = "cluster.annotation",
+                  features = my.list,
+                  color.by = "mean.exp",
+                  column.names.rotation = 90)
+```
+
+There are multiple ways to code the colors for the violins by setting the "color.by" to one of the following: "features", "clusters", "median.exp", "mean.exp", "split.var". We can also split the violin plot based on a grouping variable. This can be accomplished by setting the "split.by" argument to the name of the metadata column one wish to split the violins by. Note: when "split.by" is set, the "color.by" argument must be set to "split.var".
+```{r, fig.width = 6,fig.height = 8}
+RunStackedVlnPlot(my.pbmc.pi,
+                  ident = "cluster.annotation",
+                  features = my.list,
+                  split.by = "Groups",
+                  color.by = "split.var",
+                  column.names.rotation = 45)
+```
+
+## Summarized heatmap
+Summarized heatmap is another effective way to visualize user-defined markers across clusters. The "split.by" argument also controls separating plots for each cluster based on a second variable, such as disease group or gender.
+```{r, fig.width = 12,fig.height = 5}
+features <- list("T cell" = c("CD8A", "CD8B"),
+                ISG = c("ISG15","ISG20","IFI44L", "IFI6", "MX1"),
+                "Housekeeping" = c("ACTB"))
+RunSummarizedHeatmap(object = my.pbmc.pi,
+                     ident = "cluster.annotation",
+                     features = features,
+                     split.by = "Groups", 
+                     column.names.rotation = 30,
+                     heatmap.width = 20)
+```
+
+When needed, users may use the argument "additional.metadata" to add additional metadata columns to color-code columns, as long as the "split.by" argument and "additional.metadata" are compatible. For example, if "split.by" is set to "Groups" (cHD or cSLE), we can no longer set "additional.metadata" to columns such as "Age" or "Gender" because subjects from either the SLE group or the healthy group can have different age or gender, making the column annotation ambiguous. If we set "split.by" to "Names" (i.e., sample name), we can simultaneously add other metadata such as "Groups" and "Gender" for column annotation.
+```{r, fig.width = 30,fig.height = 10}
+RunSummarizedHeatmap(object = my.pbmc.pi,
+                     ident = "cluster.annotation",
+                     features = features,
+                     split.by = "Names", ## sample name
+                     additional.metadata = c("Groups", "Gender"),
+                     heatmap.width = 60,
+                     heatmap.height = 15,
+                     show.column.names = FALSE)
+```
+
+## Expression plot
+
+Per cluster single cell gene expression data can be visualized using the expression plot.
+```{r, fig.width = 5, fig.height = 3}
+RunExpressionPlot(object = my.pbmc.pi,
+                  feature = "ISG15",
+                  ident = "cluster.annotation",
+                  group.by = "Names",
+                  split.by = "Groups")
+```
+
+# Data export
+
+In Ragas, we provide the ExportPiData function to export analysis results to .csv file(s) using analysis keys from the Pi object. An example to export pseudobulk analysis results is given below.
+```{r}
+ExportPiData(object = csle.pbmc.pi,
+             field = 'ds',
+             key = 'DS|subcluster_idents|edgeR|group=Groups;sample=Names;gp1=cSLE;gp2=cHD;contrast=cSLE-cHD',
+             file.prefix = 'pbmc.ds' ## A mandatory argument. User should provide an informative prefix (e.g., "csle.pbmc") for exported data
+)
+```
