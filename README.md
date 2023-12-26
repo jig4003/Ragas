@@ -5,7 +5,7 @@
 Introduction to RAGAS
 ===
 Jinghua Gu, Uthra Balaji
-11/10/2023
+12/26/2023
 
 Ragas (**R** **A**dvanced **G**allery for **A**nalysis of
 **S**ingle-cell Data) is an R package that provides enhanced analysis
