@@ -55,3 +55,9 @@ devtools::install_github("jig4003/Ragas", upgrade = "never")
 ```r
 install.packages("glmmTMB", type="source")
 ```
+Docker
+===
+We have created a Ragas docker image based on the Jupyter docker (https://jupyter-docker-stacks.readthedocs.io/en/latest/). To access the Ragas docker, simply run the following:
+```bash
+docker pull uthrabalaji/ragas-docker:latest
+```
