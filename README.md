@@ -61,3 +61,4 @@ We have created a Ragas docker image based on the Jupyter docker (https://jupyte
 ```bash
 docker pull uthrabalaji/ragas-docker:latest
 ```
+A demo jupyter notebook can be found [here](https://github.com/jig4003/Ragas/blob/main/vignettes/Ragas_jupyternotebook_demo.ipynb).
