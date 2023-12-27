@@ -61,4 +61,12 @@ We have created a Ragas docker image based on the Jupyter docker (https://jupyte
 ```bash
 docker pull uthrabalaji/ragas-docker:latest
 ```
+To start the container, simply run:
+```bash
+docker run -it --rm --name ragas_docker -p 10000:8888 -v "${PWD}":/home/jovyan uthrabalaji/ragas-docker
+```
+In the above command, by setting -v to "${PWD}":/home/jovyan, it mounts the current working directory ${PWD} as /home/jovyan. 
+
+When openning the browser, the user will be asked to provide a token to access the container, which can be found in the console.
+
 A demo jupyter notebook can be found [here](https://github.com/jig4003/Ragas/blob/main/vignettes/Ragas_jupyternotebook_demo.ipynb).
