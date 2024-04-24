@@ -1,24 +1,24 @@
 Ragas subcluster re-projection vignette
 ================
 Jinghua Gu, Uthra Balaji
-11/08/2023"
+11/08/2023
 
--   [1 Introduction](#1-introduction)
-    -   [1.1 Why subcluster analysis?](#11-why-subcluster-analysis)
-    -   [1.2 Example data](#12-example-data)
-    -   [1.3 Hierarchy and nomenclature for subcluster
-        analysis](#13-hierarchy-and-nomenclature-for-subcluster-analysis)
--   [2 Integrate and visualize
-    subclusters](#2-integrate-and-visualize-subclusters)
-    -   [2.1 Before integration](#21-before-integration)
-    -   [2.2 Subcluster
-        integration/re-projection](#22-subcluster-integrationre-projection)
-    -   [2.3 Single-level re-projection: integrate B
-        cells](#23-single-level-re-projection-integrate-b-cells)
-    -   [2.4 Multi-level re-projection: integrate B and T cell
-        subsets](#24-multi-level-re-projection-integrate-b-and-t-cell-subsets)
--   [3 Notes on cell proportion
-    analysis](#3-notes-on-cell-proportion-analysis)
+- [1 Introduction](#1-introduction)
+  - [1.1 Why subcluster analysis?](#11-why-subcluster-analysis)
+  - [1.2 Example data](#12-example-data)
+  - [1.3 Hierarchy and nomenclature for subcluster
+    analysis](#13-hierarchy-and-nomenclature-for-subcluster-analysis)
+- [2 Integrate and visualize
+  subclusters](#2-integrate-and-visualize-subclusters)
+  - [2.1 Before integration](#21-before-integration)
+  - [2.2 Subcluster
+    integration/re-projection](#22-subcluster-integrationre-projection)
+  - [2.3 Single-level re-projection: integrate B
+    cells](#23-single-level-re-projection-integrate-b-cells)
+  - [2.4 Multi-level re-projection: integrate B and T cell
+    subsets](#24-multi-level-re-projection-integrate-b-and-t-cell-subsets)
+- [3 Notes on cell proportion
+  analysis](#3-notes-on-cell-proportion-analysis)
 
 # 1 Introduction
 
@@ -59,22 +59,21 @@ from subclustering represent the strongest transcriptional differences
 among the cells in the selected clusters. Subcluster analysis has the
 following main advantages:
 
--   **Improved identity** With improved feature selection that is more
-    specific to a subset of cells/clusters, subclustering analysis can
-    significantly improve cell identity assignment, especially within
-    more homogeneous subpopulations.
+- **Improved identity** With improved feature selection that is more
+  specific to a subset of cells/clusters, subclustering analysis can
+  significantly improve cell identity assignment, especially within more
+  homogeneous subpopulations.
 
--   **Increased resolution** Users are allowed to use different
-    clustering resolutions for a given subset of cells, which provides
-    great flexibility compared to the standard guided clustering that
-    typically has one resolution parameter to control the number of
-    clusters.
+- **Increased resolution** Users are allowed to use different clustering
+  resolutions for a given subset of cells, which provides great
+  flexibility compared to the standard guided clustering that typically
+  has one resolution parameter to control the number of clusters.
 
--   **Removal of noisy clusters** An added benefit for subclustering
-    analysis is that “noisy” clusters, such as doublets and cells with
-    low quality (e.g., high mitochondrial expression and low RNA) may
-    emerge as isolated clusters on the UMAP, which can be removed before
-    downstream analysis.
+- **Removal of noisy clusters** An added benefit for subclustering
+  analysis is that “noisy” clusters, such as doublets and cells with low
+  quality (e.g., high mitochondrial expression and low RNA) may emerge
+  as isolated clusters on the UMAP, which can be removed before
+  downstream analysis.
 
 A few challenges/pitfalls exist for subclustering analysis. When
 subclusters were generated from multiple cell compartments, they are
@@ -108,6 +107,15 @@ other on the UMAP, leaving the B cell compartment poorly-characterized.
 ``` r
 library(Ragas)
 library(Nebulosa)
+```
+
+    ## Warning: package 'Nebulosa' was built under R version 4.3.2
+
+    ## Loading required package: ggplot2
+
+    ## Loading required package: patchwork
+
+``` r
 p1 <- RunDimPlot(object = csle.pbmc.small,
            group.by = "cluster.annotation") + ggtitle("PBMC")
 
@@ -128,15 +136,15 @@ One way to improve the definition of immune subpopulations is to perform
 subcluster analysis. Before we go any further, we need to briefly
 explain the terminology related to subcluster analysis:
 
--   *main cluster analysis*  Refers to the very top-level guided
-    clustering analysis on the total cells from a dataset
--   *subcluster analysis*  Refers to re-analysis of a subset of cells
-    from main clusters analysis, or another subcluster analysis (i.e.,
-    multi-level subcluster analysis)
--   *parent*  A parent refers to data from which a subset of cells are
-    selected and go through subcluster analysis.
--   *child*  As opposed to parent, refers to a subset of cells from the
-    parent object that undergo subcluster analysis.
+- *main cluster analysis*  Refers to the very top-level guided
+  clustering analysis on the total cells from a dataset
+- *subcluster analysis*  Refers to re-analysis of a subset of cells from
+  main clusters analysis, or another subcluster analysis (i.e.,
+  multi-level subcluster analysis)
+- *parent*  A parent refers to data from which a subset of cells are
+  selected and go through subcluster analysis.
+- *child*  As opposed to parent, refers to a subset of cells from the
+  parent object that undergo subcluster analysis.
 
 Data/objects from the main cluster analysis can only be a parent, while
 data/objects from the subcluster analysis can be both a child of the
@@ -186,6 +194,7 @@ csle.bcell.small
     ## An object of class Seurat 
     ## 1503 features across 500 samples within 1 assay 
     ## Active assay: RNA (1503 features, 652 variable features)
+    ##  3 layers present: counts, data, scale.data
     ##  3 dimensional reductions calculated: pca, harmony, umap
 
 ``` r
@@ -195,6 +204,7 @@ csle.tcell.small
     ## An object of class Seurat 
     ## 1503 features across 1500 samples within 1 assay 
     ## Active assay: RNA (1503 features, 701 variable features)
+    ##  3 layers present: counts, data, scale.data
     ##  3 dimensional reductions calculated: pca, harmony, umap
 
 ``` r
@@ -204,6 +214,7 @@ csle.treg.small
     ## An object of class Seurat 
     ## 1503 features across 200 samples within 1 assay 
     ## Active assay: RNA (1503 features, 701 variable features)
+    ##  3 layers present: counts, data, scale.data
     ##  3 dimensional reductions calculated: pca, harmony, umap
 
 ``` r
@@ -213,6 +224,7 @@ csle.cd4.mem.small
     ## An object of class Seurat 
     ## 1503 features across 300 samples within 1 assay 
     ## Active assay: RNA (1503 features, 531 variable features)
+    ##  3 layers present: counts, data, scale.data
     ##  3 dimensional reductions calculated: pca, harmony, umap
 
 Let’s first check the new UMAPs and clusters for each individual
@@ -325,16 +337,16 @@ downstream analysis. When applicable, cluster annotation of the parent
 or child object can be passed by the “rp.main.cluster.anno” or
 “rp.subcluster.colname” argument, respectively, so as to improve
 readability of cluster identities; otherwise, numeric cluster IDs stored
-in the “seurat\_clusters” metadata column will be used by default. Below
+in the “seurat_clusters” metadata column will be used by default. Below
 is a simple example illustrating a **single-level** re-projection to
 integrate B cell subclusters with the total PBMC object.
 
 ``` r
 subclusters <- list("Bcell" = "csle.bcell.small")
 my.pbmc.pi <- CreatePostIntegrationObject(object = csle.pbmc.small,
-                                           child.object.list = subclusters, 
-                                           rp.main.cluster.anno = "cluster.annotation",
-                                           rp.subcluster.colname = "cluster.annotation")
+                                          child.object.list = subclusters, 
+                                          rp.main.cluster.anno = "cluster.annotation",
+                                          rp.subcluster.colname = "cluster.annotation")
 ```
 
     ## The following seurat_clusters are kept as-is without sub-cluster analysis: 0, 1, 2, 3, 4, 6, 7, 8, 9, 10
@@ -354,7 +366,7 @@ to see more details about the Pi object.)
 
 By default, the re-projected UMAP can be accessed by the reduction name
 “rp”. The new cluster names are stored in a metadata column called
-“subcluster\_idents”.
+“subcluster_idents”.
 
 ``` r
 RunDimPlot(my.pbmc.pi, 
@@ -510,6 +522,7 @@ csle.tcell.small
     ## An object of class Seurat 
     ## 1503 features across 1500 samples within 1 assay 
     ## Active assay: RNA (1503 features, 701 variable features)
+    ##  3 layers present: counts, data, scale.data
     ##  3 dimensional reductions calculated: pca, harmony, umap
 
 ``` r

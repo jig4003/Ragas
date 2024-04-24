@@ -1,7 +1,7 @@
 ---
 title: "Ragas subcluster re-projection vignette"
 author: "Jinghua Gu, Uthra Balaji"
-date: 11/08/2023"
+date: "11/08/2023"
 output: 
   rmarkdown::github_document:
     toc: TRUE
@@ -144,9 +144,9 @@ To integrate UMAPs from main clusters and subclusters to generate the re-project
 ```{r}
 subclusters <- list("Bcell" = "csle.bcell.small")
 my.pbmc.pi <- CreatePostIntegrationObject(object = csle.pbmc.small,
-                                           child.object.list = subclusters, 
-                                           rp.main.cluster.anno = "cluster.annotation",
-                                           rp.subcluster.colname = "cluster.annotation")
+                                          child.object.list = subclusters, 
+                                          rp.main.cluster.anno = "cluster.annotation",
+                                          rp.subcluster.colname = "cluster.annotation")
 ```
 
 (Note: The CreatePostIntegrationObject function will create the post-integration (Pi) object, which is simply a list of collected data objects organized in an orchestrated way for single-cell analysis and visualization, including the batch-integrated Seurat object and fields to store additional analysis results. Run ? CreatePostIntegrationObject to see more details about the Pi object.)
