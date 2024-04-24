@@ -35,6 +35,7 @@ Documentation
 Read the following tutorials for a jump-start:
 -   [**Tutorial: A quick start guide**](https://github.com/jig4003/Ragas/blob/main/vignettes/QuickStart.md) 
 -   [**Tutorial: Ragas for subcluster analysis**](https://github.com/jig4003/Ragas/blob/main/vignettes/subcluster.md)
+-   [**Tutorial: More examples on running Ragas with different scRNA-Seq workflows**](https://github.com/jig4003/Ragas/blob/main/vignettes/CrossCompatibilityExamples.md)
 
 Installation
 ===
