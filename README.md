@@ -5,7 +5,7 @@
 Introduction to RAGAS
 ===
 Jinghua Gu, Uthra Balaji
-11/10/2023
+12/26/2023
 
 Ragas (**R** **A**dvanced **G**allery for **A**nalysis of
 **S**ingle-cell Data) is an R package that provides enhanced analysis
@@ -55,3 +55,18 @@ devtools::install_github("jig4003/Ragas", upgrade = "never")
 ```r
 install.packages("glmmTMB", type="source")
 ```
+Docker
+===
+We have created a Ragas docker image based on the Jupyter docker (https://jupyter-docker-stacks.readthedocs.io/en/latest/). To access the Ragas docker, simply run the following:
+```bash
+docker pull uthrabalaji/ragas-docker:latest
+```
+To start the container, simply run:
+```bash
+docker run -it --rm --name ragas_docker -p 10000:8888 -v "${PWD}":/home/jovyan uthrabalaji/ragas-docker
+```
+In the above command, by setting -v to "${PWD}":/home/jovyan, it mounts the current working directory ${PWD} as /home/jovyan. 
+
+When openning the browser, the user will be asked to provide a token to access the container, which can be found in the console.
+
+A demo jupyter notebook can be found [here](https://github.com/jig4003/Ragas/blob/main/vignettes/Ragas_jupyternotebook_demo.ipynb).
