@@ -13,6 +13,8 @@ date: "2024-04-15"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+<span style="color:red">Note: Seurat V5 is required to load and run the pre-built Seurat objects in this tutorial (we recommend using the Ragas docker on our Github main page). However, other than example 1, most of the code in this tutorial is compatible with older versions of Seurat.</span>
+
 # Motivation
 In scRNA-Seq studies with a multi-sample design, essential data preprocessing steps, including batch integration and dimension reduction, need to be performed before clustering. When developing Ragas, we intend to provide a flexible interface so users can apply Ragas for subcluster integration based on different scRNA-Seq workflows. In the "QuickStart" and "subcluster" vignettes, we demonstrated subclustering integration using harmony-corrected principal components. In this tutorial, we are going to illustrate performing Ragas subcluster re-projection using data processed by different scRNA-Seq workflows. 
 

@@ -14,6 +14,12 @@ Jinghua Gu, Uthra Balaji
   - [2.4 Example 4: Semi-supervised re-clustering by
     SCISSORS](#24-example-4-semi-supervised-re-clustering-by-scissors)
 
+<span style="color:red">Note: Seurat V5 is required to load and run the
+pre-built Seurat objects in this tutorial (we recommend using the Ragas
+docker on our Github main page). However, other than example 1, most of
+the code in this tutorial is compatible with older versions of
+Seurat.</span>
+
 # 1 Motivation
 
 In scRNA-Seq studies with a multi-sample design, essential data
