@@ -5,6 +5,7 @@
 #'
 #' @param object The parent Seurat object
 #' @param subclusters.list A list of child Seurat/Pi object to be combined
+#' @param keep.child.object.name Whether to keep the child object name as the prefix for subcluster identities
 #' @param weight A numeric number between 0 and 1 indicating the weight to reserve nearest neighbor structures from the parent object (default: 1)
 #' @param main.cluster.anno Additional cluster annotation for the parent Seurat object, such as user-annotated cluster identities
 #' @param main.cluster.umap.config A list containing UMAP run parameters for main clusters
@@ -14,6 +15,7 @@
 #' @param diet.dimredc Whether to preserve a subset of DimReducs when running \code{DietSeurat} (default: pca, harmony, umap)
 #' @param rp.reduction.name Name to store the re-projected dimension reduction object (default: rp)
 #' @param rp.reduction.key Key for the re-projected dimension reduction object (default: RPUMAP_)
+#' @param rp.seed Random seed for re-projected UMAP
 #' @param verbose Verbosity (default: TRUE)
 #'
 #' @return An updated parent Seurat object with two key modifications
@@ -27,6 +29,7 @@
 
 RunSubclusterReprojection <- function(object,
                                       subclusters.list,
+                                      keep.child.object.name = TRUE,
                                       weight = 1,
                                       main.cluster.anno = NULL,
                                       main.cluster.umap.config = NULL,
@@ -35,6 +38,7 @@ RunSubclusterReprojection <- function(object,
                                       subcluster.umap.config = NULL,
                                       rp.reduction.name = "rp",
                                       rp.reduction.key = "RPUMAP_",
+                                      rp.seed = 42L,
                                       verbose = TRUE
                                       ){
   ## parent object
@@ -107,8 +111,11 @@ RunSubclusterReprojection <- function(object,
   ## assign sub-cluster identities
   for(i in 1:length(child.obj.list)){
     idx <- match(colnames(child.obj.list[[i]]), colnames(parent.obj))
-    parent.obj$subcluster_idents[idx] <- paste(names(child.obj.list)[i],child.obj.list[[i]][[subcluster.colname[names(child.obj.list)[i]], drop = TRUE]], sep = '-')
-
+    if(keep.child.object.name){
+      parent.obj$subcluster_idents[idx] <- paste(names(child.obj.list)[i],child.obj.list[[i]][[subcluster.colname[names(child.obj.list)[i]], drop = TRUE]], sep = '-')
+    }else{
+      parent.obj$subcluster_idents[idx] <- as.character(child.obj.list[[i]][[subcluster.colname[names(child.obj.list)[i]], drop = TRUE]])
+    }
   }
 
   parent.obj <- subset(parent.obj, subset = subcluster_idents != 'none')
@@ -125,6 +132,7 @@ RunSubclusterReprojection <- function(object,
                                  w = weight,
                                  reduction.name = rp.reduction.name,
                                  reduction.key = rp.reduction.key,
+                                 seed = rp.seed,
                                  verbose = verbose)
   return(parent.obj)
 

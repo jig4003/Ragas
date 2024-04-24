@@ -115,6 +115,7 @@
                              mc.cluster.to.preserve = "seurat_clusters",
                              reduction.name = "rp",
                              reduction.key = "RPUMAP_",
+                             seed = 42L,
                              verbose = TRUE){
 
   if(is.null(mc.umap.config)){
@@ -133,13 +134,19 @@
   }
   # cat(mc.umap.name, mc.umap.input.reduction.name, mc.umap.dims, mc.umap.n.neighbors, mc.umap.metric,'\n')
 
-  if(verbose){message("Re-running UMAP for the main object...")}
-  mc.umap <- .RunUMAP(mc,
-                      reduction = mc.umap.input.reduction.name,
-                      dims = eval(parse(text = mc.umap.dims)),
-                      n.neighbors = mc.umap.n.neighbors,
-                      metric = mc.umap.metric)
-  mc.nn <- mc.umap$nn[[mc.umap.metric]]
+  if(is.null(Misc(mc[[mc.umap.name]], slot = mc.umap.metric))){
+    if(verbose){message("Re-running UMAP for the main object...")}
+    mc.umap <- .RunUMAP(mc,
+                        reduction = mc.umap.input.reduction.name,
+                        dims = eval(parse(text = mc.umap.dims)),
+                        n.neighbors = mc.umap.n.neighbors,
+                        metric = mc.umap.metric)
+    mc.nn <- mc.umap$nn[[mc.umap.metric]]
+  }else{
+    if(verbose){message("KNN for main cluster reduction ", mc.umap.name, " recycled.")}
+    mc.nn <- Misc(mc[[mc.umap.name]], slot = mc.umap.metric)
+  }
+
 
   sc.nn.list <- list()
   for(i in 1:length(sc.list)){
@@ -249,7 +256,7 @@
     }
   }
 
-  mc.umap.new <- .RunUMAP(nn_method = mc.nn.new.w)
+  mc.umap.new <- .RunUMAP(nn_method = mc.nn.new.w, seed.use = seed)
   # plot(mc.umap.new$embedding[,1],mc.umap.new$embedding[,2], pch = 19, cex = .2)
 
   ## Create dimension reduction object named "RP"
@@ -397,7 +404,7 @@ ConfigureReprojection <- function(type = c("main","sc"),
   type <- match.arg(type)
   if(is.null(sc.name) && type == "sc"){stop("sc.name cannot be NULL for subcluster analysis!")}
   if(!is.null(append.to) && type == "main"){
-    warning("Argument append.to not applicable when tyep = main! Ignored.")
+    warning("Argument append.to not applicable when type = main! Ignored.")
     append.to <- NULL}
   if(is.null(append.to)){my.config <- list()}else{my.config = append.to}
   if(type == "main"){

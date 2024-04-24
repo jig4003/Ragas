@@ -8,6 +8,7 @@
 #'
 #' @param object A Seurat object
 #' @param child.object.list A list of Seurat/Pi objects that are the children of \code{object} from sub-cluster analysis
+#' @param keep.child.object.name Whether to keep the child object name as the prefix for subcluster identities. See Example 2 below
 #' @param parent.object A Seurat object that is the parent of \code{object}
 #' @param parent.key An optional character to describe the parent object. If not provided, the name of the parent object will be used.
 #' @param rp.main.cluster.anno Additional cluster annotation from the metadata column, such as user-annotated cluster identities.
@@ -26,6 +27,7 @@
 #' Only applies to re-projection of subclusters (default: 1)
 #' @param rp.reduction.name Name to store the re-projected dimension reduction object (default: rp)
 #' @param rp.reduction.key Key for the re-projected dimension reduction object (default: RPUMAP_)
+#' @param rp.seed Random seed for re-projected UMAP
 #' @param verbose Verbosity (default: TRUE)
 #'
 #' @references Hao and Hao et al. (2021). “Integrated analysis of multimodal single-cell data.” Cell. doi:10.1016/j.cell.2021.04.048
@@ -46,6 +48,7 @@
 #' ## Example 2: create a Pi object and integrate subclusters with default UMAP run parameters
 #' subclusters <- list(T = "csle.tcell.small")
 #' my.pi <- CreatePostIntegrationObject(object = csle.pbmc.small,
+#'                                      keep.child.object.name = FALSE,
 #'                                      child.object.list = subclusters,
 #'                                      rp.main.cluster.anno = "cluster.annotation",
 #'                                      rp.subcluster.colname = "cluster.annotation")
@@ -77,6 +80,7 @@
 #'
 CreatePostIntegrationObject <- function(object,
                                         child.object.list = NULL,
+                                        keep.child.object.name = TRUE,
                                         parent.object = NULL,
                                         parent.key = NULL,
                                         rp.main.cluster.anno = NULL,
@@ -87,6 +91,7 @@ CreatePostIntegrationObject <- function(object,
                                         rp.weight = 1,
                                         rp.reduction.name = "rp",
                                         rp.reduction.key = "RPUMAP_",
+                                        rp.seed = 42L,
                                         verbose = TRUE
                                         ){
   if(!is(object, "Seurat")){stop("Invalid input argument: object. Seurat object is required.")}
@@ -131,6 +136,7 @@ CreatePostIntegrationObject <- function(object,
   if(!is.null(child.object.list)){
     seurat.obj <- RunSubclusterReprojection(object,
                                             subclusters.list = child.object.list,
+                                            keep.child.object.name = keep.child.object.name,
                                             weight = rp.weight,
                                             main.cluster.anno = rp.main.cluster.anno,
                                             main.cluster.umap.config = rp.main.cluster.umap.config,
@@ -139,6 +145,7 @@ CreatePostIntegrationObject <- function(object,
                                             subcluster.umap.config = rp.subcluster.umap.config,
                                             rp.reduction.name = rp.reduction.name,
                                             rp.reduction.key = rp.reduction.key,
+                                            rp.seed = rp.seed,
                                             verbose = verbose)
   }else{
     seurat.obj <- object
