@@ -7,6 +7,7 @@
 CreatePostIntegrationObject(
   object,
   child.object.list = NULL,
+  keep.child.object.name = TRUE,
   parent.object = NULL,
   parent.key = NULL,
   rp.main.cluster.anno = NULL,
@@ -17,6 +18,7 @@ CreatePostIntegrationObject(
   rp.weight = 1,
   rp.reduction.name = "rp",
   rp.reduction.key = "RPUMAP_",
+  rp.seed = 42L,
   verbose = TRUE
 )
 }
@@ -24,6 +26,8 @@ CreatePostIntegrationObject(
 \item{object}{A Seurat object}
 
 \item{child.object.list}{A list of Seurat/Pi objects that are the children of \code{object} from sub-cluster analysis}
+
+\item{keep.child.object.name}{Whether to keep the child object name as the prefix for subcluster identities. See Example 2 below}
 
 \item{parent.object}{A Seurat object that is the parent of \code{object}}
 
@@ -52,6 +56,8 @@ Only applies to re-projection of subclusters (default: 1)}
 \item{rp.reduction.name}{Name to store the re-projected dimension reduction object (default: rp)}
 
 \item{rp.reduction.key}{Key for the re-projected dimension reduction object (default: RPUMAP_)}
+
+\item{rp.seed}{Random seed for re-projected UMAP}
 
 \item{verbose}{Verbosity (default: TRUE)}
 }
@@ -82,6 +88,7 @@ my.pi <- CreatePostIntegrationObject(object = csle.pbmc.small)
 ## Example 2: create a Pi object and integrate subclusters with default UMAP run parameters
 subclusters <- list(T = "csle.tcell.small")
 my.pi <- CreatePostIntegrationObject(object = csle.pbmc.small,
+                                     keep.child.object.name = FALSE,
                                      child.object.list = subclusters,
                                      rp.main.cluster.anno = "cluster.annotation",
                                      rp.subcluster.colname = "cluster.annotation")

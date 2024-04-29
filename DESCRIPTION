@@ -13,4 +13,4 @@ Depends: Seurat
 Imports: ggplot2, randomcoloR, SingleCellExperiment, Matrix, uwot, future, dplyr, reshape2, scales, ComplexHeatmap, grid, circlize, gplots, muscat, limma, ggtree, patchwork, ggprism, rstatix, cowplot, aplot, crayon, ggsankey
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.3
