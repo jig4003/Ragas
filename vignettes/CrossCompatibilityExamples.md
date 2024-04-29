@@ -38,11 +38,11 @@ re-projection using data processed by different scRNA-Seq workflows.
 ## 2.1 Dataset availability
 
 The datasets used in this vignette have been re-processed and saved as
-Seurat objects in rds format. These rds files can be simply loaded by
-the R commands readRDS(url(…)) functions as demonstrated below. In case
-users experience issues with loading larger datasets (e.g., the PBMC
-object in example 2) through R commands, an alternative way is to
-directly download the dataset from links below and load them before
+Seurat objects in rds format. These rds files can be easily loaded by R
+functions readRDS(url(…)) as demonstrated below. In case users
+experience issues with loading larger datasets (e.g., the PBMC object in
+example 2) through R, an alternative way is to directly download the
+dataset from links below and load them into the environment before
 running the demo code.
 
 Example 1:
