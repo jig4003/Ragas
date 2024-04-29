@@ -2,17 +2,18 @@ Examples for cross compatibility with different integration and
 clustering methods
 ================
 Jinghua Gu, Uthra Balaji
-2024-04-15
+2024-04-29
 
 - [1 Motivation](#1-motivation)
 - [2 Examples](#2-examples)
-  - [2.1 Example 1: Seurat (V5)
-    integration](#21-example-1-seurat-v5-integration)
-  - [2.2 Example 2: fastMNN (from Seurat
-    Wrapper)](#22-example-2-fastmnn-from-seurat-wrapper)
-  - [2.3 Example 3: LIGER](#23-example-3-liger)
-  - [2.4 Example 4: Semi-supervised re-clustering by
-    SCISSORS](#24-example-4-semi-supervised-re-clustering-by-scissors)
+  - [2.1 Dataset availability](#21-dataset-availability)
+  - [2.2 Example 1: Seurat (V5)
+    integration](#22-example-1-seurat-v5-integration)
+  - [2.3 Example 2: fastMNN (from Seurat
+    Wrapper)](#23-example-2-fastmnn-from-seurat-wrapper)
+  - [2.4 Example 3: LIGER](#24-example-3-liger)
+  - [2.5 Example 4: Semi-supervised re-clustering by
+    SCISSORS](#25-example-4-semi-supervised-re-clustering-by-scissors)
 
 <span style="color:red">Note: Seurat V5 is required to load and run the
 pre-built Seurat objects in this tutorial (we recommend using the Ragas
@@ -34,7 +35,33 @@ re-projection using data processed by different scRNA-Seq workflows.
 
 # 2 Examples
 
-## 2.1 Example 1: Seurat (V5) integration
+## 2.1 Dataset availability
+
+The datasets used in this vignette have been re-processed and saved as
+Seurat objects in rds format. These rds files can be simply loaded by
+the R commands readRDS(url(…)) functions as demonstrated below. In case
+users experience issues with loading larger datasets (e.g., the PBMC
+object in example 2) through R commands, an alternative way is to
+directly download the dataset from links below and load them before
+running the demo code.
+
+Example 1:
+[ifnb](https://wcm.box.com/shared/static/j5cpgg590svc6cr8idfkl5116tzqkmxw.rds),
+[ifnb.bcell](https://wcm.box.com/shared/static/r11x4f7r4520er7ae6mv961hyahiwbpg.rds)
+
+Example 2:
+[pbmcsca](https://wcm.box.com/shared/static/wzbm4woxjoa8iq1c6dikte35gpok8hmg.rds),
+[pbmcsca.tnk](https://wcm.box.com/shared/static/r2ebt32iiagbs8z3206xbo2aueq0qmz7.rds)
+
+Example 3:
+[pbmc](https://wcm.box.com/shared/static/zyzdvsxah008iqt1i1mgm5nnz81goq9g.rds),
+[bcell](https://wcm.box.com/shared/static/u90ncf2tssa1w4sc4g30a5ls0id158w7.rds)
+
+Example 4:
+[seu_pbmc](https://wcm.box.com/shared/static/f31g5pnh4q64j5ctl0ywqbcbrfh9hfmd.rds),
+[t_reclust](https://wcm.box.com/shared/static/u7m1kyvy978ewye0d5a868arg3s46niz.rds)
+
+## 2.2 Example 1: Seurat (V5) integration
 
 - Dataset description: IFNB-Stimulated and control PBMCs
 - Batch integration method: Seurat CCA
@@ -135,7 +162,7 @@ p1 | p2
 
 ![](CrossCompatibilityExamples_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
 
-## 2.2 Example 2: fastMNN (from Seurat Wrapper)
+## 2.3 Example 2: fastMNN (from Seurat Wrapper)
 
 - Dataset description: Broad Institute PBMC Systematic Comparative
   Analysis
@@ -246,7 +273,7 @@ RunDimPlot(pbmcsca.pi, reduction = "rp", group.by = "subcluster_idents",label = 
 
 ![](CrossCompatibilityExamples_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
 
-## 2.3 Example 3: LIGER
+## 2.4 Example 3: LIGER
 
 - Dataset description: interferon-stimulated and ctrl PBMCs from Kang et
   al, 2017
@@ -351,7 +378,7 @@ RunDimPlot(pbmc.pi, reduction = "rp", group.by = "subcluster_idents",label = TRU
 
 ![](CrossCompatibilityExamples_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
 
-## 2.4 Example 4: Semi-supervised re-clustering by SCISSORS
+## 2.5 Example 4: Semi-supervised re-clustering by SCISSORS
 
 - Dataset description: 3k PBMCs from 10X Genomics
 - Batch integration method: NA

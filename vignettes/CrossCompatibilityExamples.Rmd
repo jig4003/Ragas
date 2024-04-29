@@ -6,7 +6,7 @@ output:
   rmarkdown::github_document:
     toc: TRUE
     number_sections: TRUE
-date: "2024-04-15"
+date: "2024-04-29"
 ---
 
 ```{r setup, include=FALSE}
@@ -19,6 +19,18 @@ knitr::opts_chunk$set(echo = TRUE)
 In scRNA-Seq studies with a multi-sample design, essential data preprocessing steps, including batch integration and dimension reduction, need to be performed before clustering. When developing Ragas, we intend to provide a flexible interface so users can apply Ragas for subcluster integration based on different scRNA-Seq workflows. In the "QuickStart" and "subcluster" vignettes, we demonstrated subclustering integration using harmony-corrected principal components. In this tutorial, we are going to illustrate performing Ragas subcluster re-projection using data processed by different scRNA-Seq workflows. 
 
 # Examples
+## Dataset availability
+
+The datasets used in this vignette have been re-processed and saved as Seurat objects in rds format. These rds files can be simply loaded by the R commands readRDS(url(...)) functions as demonstrated below. In case users experience issues with loading larger datasets (e.g., the PBMC object in example 2) through R commands, an alternative way is to directly download the dataset from links below and load them before running the demo code.
+
+Example 1: [ifnb](https://wcm.box.com/shared/static/j5cpgg590svc6cr8idfkl5116tzqkmxw.rds), [ifnb.bcell](https://wcm.box.com/shared/static/r11x4f7r4520er7ae6mv961hyahiwbpg.rds)
+
+Example 2: [pbmcsca](https://wcm.box.com/shared/static/wzbm4woxjoa8iq1c6dikte35gpok8hmg.rds), [pbmcsca.tnk](https://wcm.box.com/shared/static/r2ebt32iiagbs8z3206xbo2aueq0qmz7.rds)
+
+Example 3: [pbmc](https://wcm.box.com/shared/static/zyzdvsxah008iqt1i1mgm5nnz81goq9g.rds), [bcell](https://wcm.box.com/shared/static/u90ncf2tssa1w4sc4g30a5ls0id158w7.rds)
+
+Example 4: [seu_pbmc](https://wcm.box.com/shared/static/f31g5pnh4q64j5ctl0ywqbcbrfh9hfmd.rds), [t_reclust](https://wcm.box.com/shared/static/u7m1kyvy978ewye0d5a868arg3s46niz.rds)
+
 ## Example 1: Seurat (V5) integration
 * Dataset description: IFNB-Stimulated and control PBMCs
 * Batch integration method: Seurat CCA
