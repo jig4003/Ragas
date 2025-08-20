@@ -1,7 +1,7 @@
 Package: Ragas
 Type: Package
 Title: R Advanced Gallery for Analysis of Single-cell Data
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: c(
     person(given = "Jinghua", family = "Gu", email = "jig4003@med.cornell.edu", role = c("aut", "cre")),
     person(given = "Uthra", family = "Balaji", email = "utb4001@med.cornell.edu", role = c("aut")),

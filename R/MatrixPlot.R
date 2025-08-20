@@ -14,6 +14,8 @@
 #' @param max.exp The maximum expression value to plot (default: 2)
 #' @param column.fontsize Font size for column texts (default: 12)
 #' @param row.fontsize Font size for row texts (default: 12)
+#' @param column.fontface Fontface for column labels, either "plain", "bold", "italic", "oblique" or "bold.italic" (default: "plain")
+#' @param row.fontface Fontface for row labels, either "plain", "bold", "italic", "oblique" or "bold.italic" (default: "plain")
 #' @param column.anno.cols Named character vector with colors for column annotations (default: NULL). Names should match Idents of object.
 #' @param column.anno.name.fontsize Font size for column annotations, such as clusters (default: 15)
 #' @param column.anno.name.rot Rotation of column annotations (default: 45)
@@ -37,6 +39,7 @@
 MatrixPlot <- function(object, markers.list, n.genes = 3, type = "all", up.genes = TRUE, down.genes = FALSE,
                        heatmap.cols = NULL,
                        min.exp=-2,max.exp=2,column.fontsize=12,row.fontsize=12,
+                       column.fontface = 'plain', row.fontface = 'plain',
                        column.anno.cols = NULL,
                        column.anno.name.fontsize=15,column.anno.name.rot=45,column.anno.name.just="center",
                        legend.label.fontsize=13,legend.title.fontsize=15,
@@ -329,7 +332,7 @@ MatrixPlot <- function(object, markers.list, n.genes = 3, type = "all", up.genes
 
   p <- Heatmap(plot.dat.2,cluster_rows = ddgram.row, cluster_columns = F,top_annotation = top.anno,show_column_names = T,name="average\nexpression",
                row_dend_side = "right", row_names_side = "left",rect_gp = gpar(col = "black"), height =  unit(0.5, "npc"),
-               column_labels = plot.dat.new$exp.Var1,column_names_gp = gpar(fontsize=column.fontsize),row_names_gp = gpar(fontsize = row.fontsize),
+               column_labels = plot.dat.new$exp.Var1,column_names_gp = gpar(fontsize = column.fontsize,fontface = column.fontface),row_names_gp = gpar(fontsize = row.fontsize,fontface = row.fontface),
                heatmap_width = unit(heatmap.width, "cm"),heatmap_height = unit(heatmap.height,"cm"),
                colorRamp2(breaks=seq(min.exp,max.exp,length.out=21),colors = colorpanel(21, low=heatmap.cols[1], mid=heatmap.cols[2], high=heatmap.cols[3])),
                heatmap_legend_param = list(at= seq(min.exp,max.exp),legend_height = unit(5,"cm"),
