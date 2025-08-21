@@ -18,6 +18,8 @@ RunStackedVlnPlot(
   points.size = 0.1,
   column.fontsize = 12,
   row.fontsize = 8,
+  column.fontface = "plain",
+  row.fontface = "plain",
   row.title.fontsize = 15,
   legend.fontsize = 12,
   legend.title.fontsize = 15,
@@ -62,6 +64,8 @@ When \code{split.by} is set (not to NULL), \code{color.by} must set to "split.va
 \item{column.fontsize}{Column font size (default: 12)}
 
 \item{row.fontsize}{Row font size (default: 8)}
+
+\item{column.fontface, row.fontface}{Fontface for column/row labels either "plain", "bold", "italic" or "bold.italic" (default: "plain")}
 
 \item{row.title.fontsize}{Row title font size (default: 15)}
 

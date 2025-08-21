@@ -14,7 +14,7 @@
 #' @param add.points Whether to plot data
 #' @param points.size Size for data points
 #' @param column.fontsize,row.fontsize,row.title.fontsize,legend.fontsize,legend.title.fontsize,features.fontsize Font size for figure and legend
-#' @param column.fontface,row.fontface Fontface for column/row labels either "plain", "bold", "italic" or "bold.italic" (default: "plain")
+#' @param column.fontface,row.fontface,features.fontface Fontface for column/row/feature labels either "plain", "bold", "italic" or "bold.italic" (default: "plain")
 #' @param column.names.rotation Rotation for column names
 #' @param axis.text.hjust,axis.text.vjust Horizontal/vertical justification (in [0, 1]) for axis text (default: 0.5)
 #' @param colors The colors to fill the violin plot when \code{color.by} is set to "median.exp" or "mean.exp"
@@ -38,7 +38,7 @@ StackedVlnPlot <- function(object, features, feature.annotation = NULL,feature.a
                            assay = 'RNA', split.by = NULL, color.by = 'features', clust.row = FALSE,clust.column = TRUE,
                            add.points = FALSE,points.size = 0.1,
                            column.fontsize = 12, row.fontsize = 8,
-                           column.fontface = 'plain', row.fontface = 'plain',
+                           column.fontface = 'plain', row.fontface = 'plain', features.fontface = 'plain',
                            row.title.fontsize = 15,
                            legend.fontsize = 12, legend.title.fontsize = 15, features.fontsize = 12,
                            column.names.rotation = 0,
@@ -186,7 +186,7 @@ StackedVlnPlot <- function(object, features, feature.annotation = NULL,feature.a
               legend.title = element_text(size = legend.title.fontsize, hjust = 0.5), legend.text = element_text(size = legend.fontsize),
               legend.position = legend.position,legend.title.align  = 0.5,
               strip.background = element_blank(),
-              strip.text.y = element_text(angle = 0,size = features.fontsize, hjust = 0),
+              strip.text.y = element_text(angle = 0,size = features.fontsize, face =features.fontface, hjust = 0),
               panel.background = element_rect(fill = NA, color = 'black')) +
         scale_y_continuous(expand = c(0,0)) +
         labs(y = 'Expression', fill = legend.title) + color.values
@@ -205,7 +205,7 @@ StackedVlnPlot <- function(object, features, feature.annotation = NULL,feature.a
               legend.title = element_text(size = legend.title.fontsize), legend.text = element_text(size = legend.fontsize),
               legend.position = legend.position,
               strip.background = element_blank(),
-              strip.text.y = element_text(angle = 0,size = features.fontsize, hjust = 0),
+              strip.text.y = element_text(angle = 0,size = features.fontsize, face =features.fontface, hjust = 0),
               panel.background = element_rect(fill = NA, color = 'black')) +
         scale_y_continuous(expand = c(0,0)) +
         labs(y = 'Expression', fill = legend.title) + color.values
@@ -279,7 +279,7 @@ StackedVlnPlot <- function(object, features, feature.annotation = NULL,feature.a
               legend.title = element_text(size = legend.title.fontsize, hjust = 0.5), legend.text = element_text(size = legend.fontsize),
               legend.position = legend.position,legend.title.align  = 0.5,
               strip.background = element_blank(),
-              strip.text.y = element_text(angle = 0,size = features.fontsize, hjust = 0),
+              strip.text.y = element_text(angle = 0,size = features.fontsize,face =features.fontface, hjust = 0),
               panel.background = element_rect(fill = NA, color = 'black')) +
         scale_y_continuous(expand = c(0,0)) +
         labs(y = 'Expression', fill = legend.title) + color.values
@@ -299,7 +299,7 @@ StackedVlnPlot <- function(object, features, feature.annotation = NULL,feature.a
               legend.title = element_text(size = legend.title.fontsize), legend.text = element_text(size = legend.fontsize),
               legend.position = legend.position,
               strip.background = element_blank(),
-              strip.text.y = element_text(angle = 0,size = features.fontsize, hjust = 0),
+              strip.text.y = element_text(angle = 0,size = features.fontsize,face =features.fontface, hjust = 0),
               panel.background = element_rect(fill = NA, color = 'black')) +
         scale_y_continuous(expand = c(0,0)) +
         labs(y = 'Expression', fill = legend.title) + color.values
@@ -376,7 +376,7 @@ StackedVlnPlot <- function(object, features, feature.annotation = NULL,feature.a
               legend.title = element_text(size = legend.title.fontsize, hjust = 0.5), legend.text = element_text(size = legend.fontsize),
               legend.position = legend.position,legend.title.align  = 0.5,
               strip.background = element_blank(),
-              strip.text.y = element_text(angle = 0,size = features.fontsize, hjust = 0),
+              strip.text.y = element_text(angle = 0,size = features.fontsize, face =features.fontface, hjust = 0),
               panel.background = element_rect(fill = NA, color = 'black')) +
         scale_y_continuous(expand = c(0,0)) +
         labs(y = 'Expression', fill = legend.title) + color.values
@@ -396,7 +396,7 @@ StackedVlnPlot <- function(object, features, feature.annotation = NULL,feature.a
               legend.title = element_text(size = legend.title.fontsize), legend.text = element_text(size = legend.fontsize),
               legend.position = legend.position,
               strip.background = element_blank(),
-              strip.text.y = element_text(angle = 0,size = features.fontsize, hjust = 0),
+              strip.text.y = element_text(angle = 0,size = features.fontsize,face =features.fontface, hjust = 0),
               panel.background = element_rect(fill = NA, color = 'black')) +
         scale_y_continuous(expand = c(0,0)) +
         labs(y = 'Expression', fill = legend.title) + color.values
@@ -478,7 +478,7 @@ StackedVlnPlot <- function(object, features, feature.annotation = NULL,feature.a
               legend.title = element_text(size = legend.title.fontsize, hjust = 0.5), legend.text = element_text(size = legend.fontsize),
               legend.position = legend.position,legend.title.align  = 0.5,
               strip.background = element_blank(),
-              strip.text.y = element_text(angle = 0,size = features.fontsize, hjust = 0),
+              strip.text.y = element_text(angle = 0,size = features.fontsize, face =features.fontface, hjust = 0),
               panel.background = element_rect(fill = NA, color = 'black')) +
         scale_y_continuous(expand = c(0,0)) +
         labs(y = 'Expression', fill = legend.title) + color.values
@@ -499,7 +499,7 @@ StackedVlnPlot <- function(object, features, feature.annotation = NULL,feature.a
               legend.title = element_text(size = legend.title.fontsize), legend.text = element_text(size = legend.fontsize),
               legend.position = legend.position,
               strip.background = element_blank(),
-              strip.text.y = element_text(angle = 0,size = features.fontsize, hjust = 0),
+              strip.text.y = element_text(angle = 0,size = features.fontsize, face =features.fontface, hjust = 0),
               panel.background = element_rect(fill = NA, color = 'black')) +
         scale_y_continuous(expand = c(0,0)) +
         labs(y = 'Expression', fill = legend.title) + color.values
