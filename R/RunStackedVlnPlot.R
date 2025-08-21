@@ -26,6 +26,7 @@
 #' @param points.size Point size (default: 0.1)
 #' @param column.fontsize Column font size (default: 12)
 #' @param row.fontsize Row font size (default: 8)
+#' @param column.fontface,row.fontface Fontface for column/row labels either "plain", "bold", "italic" or "bold.italic" (default: "plain")
 #' @param row.title.fontsize Row title font size (default: 15)
 #' @param legend.fontsize Legend font size (default: 12)
 #' @param legend.title.fontsize Legend title font size (default: 15)
@@ -75,6 +76,8 @@ RunStackedVlnPlot <- function(object,
                               points.size = 0.1,
                               column.fontsize = 12,
                               row.fontsize = 8,
+                              column.fontface = "plain",
+                              row.fontface = "plain",
                               row.title.fontsize = 15,
                               legend.fontsize = 12,
                               legend.title.fontsize = 15,
@@ -179,6 +182,8 @@ RunStackedVlnPlot <- function(object,
                  points.size = points.size,
                  column.fontsize = column.fontsize,
                  row.fontsize = row.fontsize,
+                 column.fontface = column.fontface,
+                 row.fontface = row.fontface,
                  row.title.fontsize = row.title.fontsize,
                  legend.fontsize = legend.fontsize,
                  legend.title.fontsize = legend.title.fontsize,
