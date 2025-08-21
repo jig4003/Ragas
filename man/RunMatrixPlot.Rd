@@ -15,6 +15,8 @@ RunMatrixPlot(
   max.exp = 1.5,
   column.fontsize = 6,
   row.fontsize = 8,
+  column.fontface = "plain",
+  row.fontface = "plain",
   column.anno.cols = NULL,
   column.anno.name.fontsize = 10,
   column.anno.name.rot = 0,
@@ -45,6 +47,10 @@ RunMatrixPlot(
 \item{column.fontsize}{Font size for column texts (default: 6)}
 
 \item{row.fontsize}{Font size for row texts (default: 8)}
+
+\item{column.fontface}{Fontface for column labels, either "plain", "bold", "italic", "oblique" or "bold.italic" (default: "plain")}
+
+\item{row.fontface}{Fontface for column labels, either "plain", "bold", "italic", "oblique" or "bold.italic" (default: "plain")}
 
 \item{column.anno.cols}{Named character vector with colors for column annotations (default: NULL). Names should match Idents of object.}
 

@@ -32,6 +32,7 @@
 #' @param min.exp,max.exp Minimum/maximum scaled expression value to plot (default: -2/2)
 #' @param column.names.rotation Rotation for column names (default: 90)
 #' @param row.fontsize,column.fontsize Row/column font size (default: 10/8)
+#' @param row.fontface,column.fontface Fontface for row/column labels, either "plain", "bold", "italic", "oblique" or "bold.italic" (default: "plain")
 #' @param legend.label.fontsize,legend.title.fontsize,annotation.name.fontsize Font sizes for legend label/title and annotation name (default: 10)
 #' @param heatmap.width,heatmap.height Width and height of heatmap (default: 12/10)
 #' @param random.col.seed Set seed to control row and column annotation colors (default: 1)
@@ -115,6 +116,8 @@ RunSummarizedHeatmap <- function(object,
                                  column.names.rotation=90,
                                  row.fontsize=10,
                                  column.fontsize=8,
+                                 row.fontface = "plain",
+                                 column.fontface = "plain",
                                  legend.label.fontsize=10,
                                  legend.title.fontsize=10,
                                  annotation.name.fontsize=10,
@@ -236,6 +239,8 @@ RunSummarizedHeatmap <- function(object,
                     column.names.rotation = column.names.rotation,
                     column.fontsize = column.fontsize,
                     row.fontsize = row.fontsize,
+                    column.fontface = column.fontface,
+                    row.fontface = row.fontface,
                     legend.label.fontsize = legend.label.fontsize,
                     legend.title.fontsize = legend.title.fontsize,
                     annotation.name.fontsize = annotation.name.fontsize,

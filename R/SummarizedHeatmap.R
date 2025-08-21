@@ -18,6 +18,7 @@
 #' @param min.exp,max.exp Minimum/maximum scaled expression value to plot (default: -2/2)
 #' @param column.names.rotation Rotation for column names (default: 90)
 #' @param row.fontsize,column.fontsize Row/column font size (default: 10/8)
+#' @param row.fontface,column.fontface Fontface for row/column labels, either "plain", "bold", "italic", "oblique" or "bold.italic" (default: "plain")
 #' @param legend.label.fontsize,legend.title.fontsize,annotation.name.fontsize Font sizes for legend label/title and annotation name (default: 10)
 #' @param heatmap.width,heatmap.height Width and height of heatmap (default: 12/10)
 #' @param random.col.seed Set seed to control row and column annotation colors (default: 1)
@@ -47,6 +48,7 @@ SummarizedHeatmap <- function(object, features, assay = 'RNA', split.by = NULL,
                               show.row.names = TRUE, show.column.names = TRUE,
                               min.exp=-2,max.exp=2,column.names.rotation=45,
                               column.fontsize=12,row.fontsize=12,
+                              column.fontface = "plain", row.fontface = "plain",
                               legend.label.fontsize=13,legend.title.fontsize=15,
                               annotation.name.fontsize=8, heatmap.width=12,heatmap.height=14,random.col.seed = 1,
                               ...)
@@ -192,8 +194,8 @@ SummarizedHeatmap <- function(object, features, assay = 'RNA', split.by = NULL,
                  left_annotation = left.anno,top_annotation = top.anno,
                  show_row_names = show.row.names, show_column_names = show.column.names, name="Average\nexpression",
                  row_dend_side = "right", row_names_side = "right",rect_gp = gpar(col = "black"),
-                 column_names_gp = gpar(fontsize=column.fontsize),column_names_rot = column.names.rotation,
-                 row_names_gp = gpar(fontsize = row.fontsize),
+                 column_names_gp = gpar(fontsize=column.fontsize, fontface = column.fontface),column_names_rot = column.names.rotation,
+                 row_names_gp = gpar(fontsize = row.fontsize, fontface = row.fontface),
                  heatmap_width = unit(heatmap.width, "cm"),heatmap_height = unit(heatmap.height,"cm"),
                  colorRamp2(breaks=seq(min.exp,max.exp,length.out=21),colors = colorpanel(21, low=heatmap.cols[1], mid=heatmap.cols[2], high=heatmap.cols[3])),
                  heatmap_legend_param = list(at= seq(min.exp,max.exp),legend_height = unit(5,"cm"),
@@ -340,8 +342,8 @@ SummarizedHeatmap <- function(object, features, assay = 'RNA', split.by = NULL,
                  left_annotation = left.anno,top_annotation = top.anno,
                  show_row_names = show.row.names, show_column_names = show.column.names,name="Average\nexpression",
                  row_dend_side = "right", row_names_side = "right",rect_gp = gpar(col = "black"),
-                 column_names_gp = gpar(fontsize=column.fontsize),column_names_rot = column.names.rotation,
-                 row_names_gp = gpar(fontsize = row.fontsize),
+                 column_names_gp = gpar(fontsize=column.fontsize, fontface = column.fontface),column_names_rot = column.names.rotation,
+                 row_names_gp = gpar(fontsize = row.fontsize, fontface = row.fontface),
                  heatmap_width = unit(heatmap.width, "cm"),heatmap_height = unit(heatmap.height,"cm"),
                  colorRamp2(breaks=seq(min.exp,max.exp,length.out=21),colors = colorpanel(21, low=heatmap.cols[1], mid=heatmap.cols[2], high=heatmap.cols[3])),
                  heatmap_legend_param = list(at= seq(min.exp,max.exp),legend_height = unit(5,"cm"),
