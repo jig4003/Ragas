@@ -23,6 +23,8 @@ RunSummarizedHeatmap(
   column.names.rotation = 90,
   row.fontsize = 10,
   column.fontsize = 8,
+  row.fontface = "plain",
+  column.fontface = "plain",
   legend.label.fontsize = 10,
   legend.title.fontsize = 10,
   annotation.name.fontsize = 10,
@@ -64,6 +66,8 @@ RunSummarizedHeatmap(
 \item{column.names.rotation}{Rotation for column names (default: 90)}
 
 \item{row.fontsize, column.fontsize}{Row/column font size (default: 10/8)}
+
+\item{row.fontface, column.fontface}{Fontface for row/column labels, either "plain", "bold", "italic", "oblique" or "bold.italic" (default: "plain")}
 
 \item{legend.label.fontsize, legend.title.fontsize, annotation.name.fontsize}{Font sizes for legend label/title and annotation name (default: 10)}
 
