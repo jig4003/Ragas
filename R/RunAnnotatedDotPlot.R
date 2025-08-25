@@ -19,6 +19,7 @@
 #' @param clust.column Whether to cluster the columns/features (default: FALSE)
 #' @param column.fontsize Size of column text (default: 12)
 #' @param row.fontsize Size of row text (default: 12)
+#' @param column.fontface,row.fontface Fontface for column/row labels either "plain", "bold", "italic" or "bold.italic" (default: "plain")
 #' @param legend.label.fontsize Size of the legend labels (default: 13)
 #' @param legend.title.fontsize Size of the legend title (default: 15)
 #' @param random.col.seed Set seed to control colors
@@ -53,6 +54,8 @@ RunAnnotatedDotPlot <- function(object,
                                 clust.column = FALSE,
                                 column.fontsize = 12,
                                 row.fontsize = 12,
+                                column.fontface = "plain",
+                                row.fontface = "plain",
                                 legend.label.fontsize=13,
                                 legend.title.fontsize=15,
                                 random.col.seed = 42,
@@ -139,6 +142,8 @@ RunAnnotatedDotPlot <- function(object,
                         column.annotation.cols = annotation.cols,
                         column.fontsize = column.fontsize,
                         row.fontsize = row.fontsize,
+                        column.fontface = column.fontface,
+                        row.fontface = row.fontface,
                         legend.label.fontsize = legend.label.fontsize,
                         legend.title.fontsize = legend.title.fontsize,
                         ...)

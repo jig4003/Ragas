@@ -15,6 +15,7 @@
 #' @param column.annotation.cols Colors for column annotation
 #' @param column.fontsize Size of column text (default: 12)
 #' @param row.fontsize Size of row text (default: 12)
+#' @param column.fontface,row.fontface Fontface for column/row labels either "plain", "bold", "italic" or "bold.italic" (default: "plain")
 #' @param legend.label.fontsize Size of the legend labels (default: 13)
 #' @param legend.title.fontsize Size of the legend title (default: 15)
 #' @param ... Extra parameters passed to DotPlot
@@ -45,6 +46,8 @@ AnnotatedDotPlot <- function(object,
                              column.annotation.cols = NULL,
                              column.fontsize = 12,
                              row.fontsize = 12,
+                             column.fontface = "plain",
+                             row.fontface = "plain",
                              legend.label.fontsize=13,
                              legend.title.fontsize=15,...)
 {
@@ -62,8 +65,9 @@ AnnotatedDotPlot <- function(object,
   }
 
   p <- DotPlot(object = object, features = features, cols=cols, split.by = split.by, group.by = group.by, ...) + RotatedAxis() +
-    theme(axis.title = element_blank(),axis.text.x = element_text(size = column.fontsize,angle = 90, vjust = 0.5),
-          axis.text.y = element_text(size = row.fontsize),
+    theme(axis.title = element_blank(),
+          axis.text.x = element_text(size = column.fontsize, face = column.fontface, angle = 90, vjust = 0.5),
+          axis.text.y = element_text(size = row.fontsize, face = row.fotnface),
           legend.title = element_text(size = legend.title.fontsize),
           legend.text = element_text(size = legend.label.fontsize)) +
     scale_y_discrete(position = "right")
@@ -124,8 +128,9 @@ AnnotatedDotPlot <- function(object,
       }
 
       p.dot <- DotPlot(tmp, features = v_clust$labels[v_clust$order],cols=cols, split.by = split.by, group.by = group.by,...) + RotatedAxis() +
-        theme(axis.title = element_blank(),axis.text.x = element_text(size = column.fontsize,angle = 90, vjust = 0.5),
-              axis.text.y = element_text(size = row.fontsize),
+        theme(axis.title = element_blank(),
+              axis.text.x = element_text(size = column.fontsize, face = column.fontface, angle = 90, vjust = 0.5),
+              axis.text.y = element_text(size = row.fontsize, face = row.fontface),
               legend.title = element_text(size = legend.title.fontsize),
               legend.text = element_text(size = legend.label.fontsize)) +
         scale_y_discrete(position = "right")
@@ -145,8 +150,9 @@ AnnotatedDotPlot <- function(object,
       }
 
       p.dot <- DotPlot(tmp, features = v_clust$labels[v_clust$order],cols=cols, split.by = split.by, group.by = group.by,...) + RotatedAxis() +
-        theme(axis.title = element_blank(),axis.text.x = element_text(size = column.fontsize,angle = 90, vjust = 0.5),
-              axis.text.y = element_text(size = row.fontsize),
+        theme(axis.title = element_blank(),
+              axis.text.x = element_text(size = column.fontsize, face = column.fontface, angle = 90, vjust = 0.5),
+              axis.text.y = element_text(size = row.fontsize, face = row.fontface),
               legend.title = element_text(size = legend.title.fontsize),
               legend.text = element_text(size = legend.label.fontsize)) +
         scale_y_discrete(position = "right")
@@ -187,8 +193,9 @@ AnnotatedDotPlot <- function(object,
       }
 
       p.dot <- DotPlot(tmp, features = features,cols=cols, split.by = split.by,group.by = group.by,...) + RotatedAxis() +
-        theme(axis.title = element_blank(),axis.text.x = element_text(size = column.fontsize,angle = 90, vjust = 0.5),
-              axis.text.y = element_text(size = row.fontsize),
+        theme(axis.title = element_blank(),
+              axis.text.x = element_text(size = column.fontsize, face = column.fontface, angle = 90, vjust = 0.5),
+              axis.text.y = element_text(size = row.fontsize, face = row.fontface),
               legend.title = element_text(size = legend.title.fontsize),
               legend.text = element_text(size = legend.label.fontsize)) +
         scale_y_discrete(position = "right")
@@ -206,8 +213,9 @@ AnnotatedDotPlot <- function(object,
       }
 
       p.dot <- DotPlot(tmp, features = features,cols=cols, split.by = split.by,group.by = group.by,...) + RotatedAxis() +
-        theme(axis.title = element_blank(),axis.text.x = element_text(size = column.fontsize,angle = 90, vjust = 0.5),
-              axis.text.y = element_text(size = row.fontsize),
+        theme(axis.title = element_blank(),
+              axis.text.x = element_text(size = column.fontsize, face = column.fontface, angle = 90, vjust = 0.5),
+              axis.text.y = element_text(size = row.fontsize, face = row.fontface),
               legend.title = element_text(size = legend.title.fontsize),
               legend.text = element_text(size = legend.label.fontsize)) +
         scale_y_discrete(position = "right")
@@ -241,8 +249,9 @@ AnnotatedDotPlot <- function(object,
       tmp <- object
 
       p.dot <- DotPlot(tmp, features = v_clust$labels[v_clust$order],cols=cols, split.by = split.by,group.by = group.by,...) + RotatedAxis() +
-        theme(axis.title = element_blank(),axis.text.x = element_text(size = column.fontsize,angle = 90, vjust = 0.5),
-              axis.text.y = element_text(size = row.fontsize),
+        theme(axis.title = element_blank(),
+              axis.text.x = element_text(size = column.fontsize, face = column.fontface, angle = 90, vjust = 0.5),
+              axis.text.y = element_text(size = row.fontsize, face = row.fontface),
               legend.title = element_text(size = legend.title.fontsize),
               legend.text = element_text(size = legend.label.fontsize)) +
         scale_y_discrete(position = "right")
@@ -255,8 +264,9 @@ AnnotatedDotPlot <- function(object,
       tmp <- object
 
       p.dot <- DotPlot(tmp, features = v_clust$labels[v_clust$order],cols=cols, split.by = split.by,group.by = group.by,...) + RotatedAxis() +
-        theme(axis.title = element_blank(),axis.text.x = element_text(size = column.fontsize,angle = 90, vjust = 0.5),
-              axis.text.y = element_text(size = row.fontsize),
+        theme(axis.title = element_blank(),
+              axis.text.x = element_text(size = column.fontsize, face = column.fontface, angle = 90, vjust = 0.5),
+              axis.text.y = element_text(size = row.fontsize, face = row.fontface),
               legend.title = element_text(size = legend.title.fontsize),
               legend.text = element_text(size = legend.label.fontsize)) +
         scale_y_discrete(position = "right")
@@ -287,8 +297,9 @@ AnnotatedDotPlot <- function(object,
     {
       tmp <- object
       p.dot <- DotPlot(tmp, features = features,cols=cols, split.by = split.by,group.by = group.by,...) + RotatedAxis() +
-        theme(axis.title = element_blank(),axis.text.x = element_text(size = column.fontsize,angle = 90, vjust = 0.5),
-              axis.text.y = element_text(size = row.fontsize),
+        theme(axis.title = element_blank(),
+              axis.text.x = element_text(size = column.fontsize, face = column.fontface, angle = 90, vjust = 0.5),
+              axis.text.y = element_text(size = row.fontsize, face = row.fontface),
               legend.title = element_text(size = legend.title.fontsize),
               legend.text = element_text(size = legend.label.fontsize)) +
         scale_y_discrete(position = "right")
@@ -298,8 +309,9 @@ AnnotatedDotPlot <- function(object,
     {
       tmp <- object
       p.dot <- DotPlot(tmp, features = features,cols=cols, split.by = split.by,group.by = group.by,...) + RotatedAxis() +
-        theme(axis.title = element_blank(),axis.text.x = element_text(size = column.fontsize,angle = 90, vjust = 0.5),
-              axis.text.y = element_text(size = row.fontsize),
+        theme(axis.title = element_blank(),
+              axis.text.x = element_text(size = column.fontsize, face = column.fontface, angle = 90, vjust = 0.5),
+              axis.text.y = element_text(size = row.fontsize, face = row.fontface),
               legend.title = element_text(size = legend.title.fontsize),
               legend.text = element_text(size = legend.label.fontsize)) +
         scale_y_discrete(position = "right")

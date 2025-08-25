@@ -20,6 +20,7 @@ StackedVlnPlot(
   row.fontsize = 8,
   column.fontface = "plain",
   row.fontface = "plain",
+  features.fontface = "plain",
   row.title.fontsize = 15,
   legend.fontsize = 12,
   legend.title.fontsize = 15,
@@ -55,7 +56,7 @@ When \code{split.by} is set (not to NULL), \code{color.by} must set to "split.va
 
 \item{column.fontsize, row.fontsize, row.title.fontsize, legend.fontsize, legend.title.fontsize, features.fontsize}{Font size for figure and legend}
 
-\item{column.fontface, row.fontface}{Fontface for column/row labels either "plain", "bold", "italic" or "bold.italic" (default: "plain")}
+\item{column.fontface, row.fontface, features.fontface}{Fontface for column/row/feature labels either "plain", "bold", "italic" or "bold.italic" (default: "plain")}
 
 \item{column.names.rotation}{Rotation for column names}
 
