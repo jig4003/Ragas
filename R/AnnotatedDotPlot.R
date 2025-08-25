@@ -67,7 +67,7 @@ AnnotatedDotPlot <- function(object,
   p <- DotPlot(object = object, features = features, cols=cols, split.by = split.by, group.by = group.by, ...) + RotatedAxis() +
     theme(axis.title = element_blank(),
           axis.text.x = element_text(size = column.fontsize, face = column.fontface, angle = 90, vjust = 0.5),
-          axis.text.y = element_text(size = row.fontsize, face = row.fotnface),
+          axis.text.y = element_text(size = row.fontsize, face = row.fontface),
           legend.title = element_text(size = legend.title.fontsize),
           legend.text = element_text(size = legend.label.fontsize)) +
     scale_y_discrete(position = "right")

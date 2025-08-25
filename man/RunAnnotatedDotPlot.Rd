@@ -17,6 +17,8 @@ RunAnnotatedDotPlot(
   clust.column = FALSE,
   column.fontsize = 12,
   row.fontsize = 12,
+  column.fontface = "plain",
+  row.fontface = "plain",
   legend.label.fontsize = 13,
   legend.title.fontsize = 15,
   random.col.seed = 42,
@@ -51,6 +53,8 @@ RunAnnotatedDotPlot(
 \item{column.fontsize}{Size of column text (default: 12)}
 
 \item{row.fontsize}{Size of row text (default: 12)}
+
+\item{column.fontface, row.fontface}{Fontface for column/row labels either "plain", "bold", "italic" or "bold.italic" (default: "plain")}
 
 \item{legend.label.fontsize}{Size of the legend labels (default: 13)}
 
