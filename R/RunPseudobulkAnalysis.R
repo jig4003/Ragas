@@ -138,6 +138,9 @@ RunPseudobulkAnalysis <- function(object,
                    drop = FALSE)
     ## assign block_id if needed
     if(!is.null(blocking.var)){
+      if(!(blocking.var %in% colnames(colData(sce)))){
+        stop("blocking.var '", blocking.var, "' not found!")
+      }
       sce$block_id <- sce[[blocking.var]]
       }
 
