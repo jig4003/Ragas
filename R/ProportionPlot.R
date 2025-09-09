@@ -49,7 +49,7 @@
 ProportionPlot <- function(object, var.group, method = 'unpooled',plot.all = TRUE,
                            colors = NULL,
                            prop.by='cluster',  split.by = NULL,
-                           parent.meta = parent.meta,
+                           parent.meta = NULL,
                            unpool.plot.type = 'boxplot',
                            var.unpool, n.col = 5,
                            plot.p.sig = TRUE, plot.p.adj.sig = FALSE,
