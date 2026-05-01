@@ -5,7 +5,7 @@
 Introduction to RAGAS
 ===
 Jinghua Gu, Uthra Balaji
-04/24/2024
+04/29/2024
 
 Ragas (**R** **A**dvanced **G**allery for **A**nalysis of
 **S**ingle-cell Data) is an R package that provides enhanced analysis
@@ -33,9 +33,9 @@ of the subcluster analysis. Ragas has the following unique advantages:
 Documentation
 ===
 Read the following tutorials for a jump-start:
--   [**Tutorial: A quick start guide**](https://github.com/jig4003/Ragas/blob/main/vignettes/QuickStart.md) 
--   [**Tutorial: Ragas for subcluster analysis**](https://github.com/jig4003/Ragas/blob/main/vignettes/subcluster.md)
--   [**Tutorial: More examples on running Ragas with different scRNA-Seq workflows**](https://github.com/jig4003/Ragas/blob/main/vignettes/CrossCompatibilityExamples.md)
+-   [**Tutorial 1: A quick start guide**](https://github.com/jig4003/Ragas/blob/main/vignettes/QuickStart.md) 
+-   [**Tutorial 2: Ragas for subcluster analysis**](https://github.com/jig4003/Ragas/blob/main/vignettes/subcluster.md)
+-   [**Tutorial 3: More examples on running Ragas with different scRNA-Seq workflows**](https://github.com/jig4003/Ragas/blob/main/vignettes/CrossCompatibilityExamples.md)
 
 Installation
 ===

@@ -9,8 +9,8 @@
 #' @param object A Seurat object
 #' @param child.object.list A list of Seurat/Pi objects that are the children of \code{object} from sub-cluster analysis
 #' @param keep.child.object.name Whether to keep the child object name as the prefix for subcluster identities. See Example 2 below
-#' @param parent.object A Seurat object that is the parent of \code{object}
-#' @param parent.key An optional character to describe the parent object. If not provided, the name of the parent object will be used.
+#' @param parent.object A Seurat object that is the parent of \code{object} or a data frame of the metadata from the parent Seurat object (i.e., seurat_object[[]]). Use data frame as input can significantly reduce use of memory.
+#' @param parent.key An optional character to describe the parent object. If not provided, the name of the parent object will be used. If parent.object is a data frame, assign parent.key becomes mandatory.
 #' @param rp.main.cluster.anno Additional cluster annotation from the metadata column, such as user-annotated cluster identities.
 #' Only applies to re-projection of subclusters
 #' @param rp.main.cluster.umap.config A list containing UMAP run parameters for main clusters. See \code{\link[Ragas]{ConfigureReprojection}} for more details. When this argument is set to NULL,
@@ -45,7 +45,14 @@
 #' ## Example 1: create a Pi object without integrating subclusters
 #' my.pi <- CreatePostIntegrationObject(object = csle.pbmc.small)
 #'
-#' ## Example 2: create a Pi object and integrate subclusters with default UMAP run parameters
+#' ## Example 2: add parent object
+#' my.pi <- CreatePostIntegrationObject(object = csle.bcell.small, parent.object = csle.pbmc.small)
+#'
+#' ## a more efficient alternative
+#' metadata <- csle.pbmc.small[[]] ## get metadata from Seurat object
+#' my.pi <- CreatePostIntegrationObject(object = csle.bcell.small, parent.object = metadata, parent.key = 'pbmc') ## a key name is required
+#'
+#' ## Example 3: create a Pi object and integrate subclusters with default UMAP run parameters
 #' subclusters <- list(T = "csle.tcell.small")
 #' my.pi <- CreatePostIntegrationObject(object = csle.pbmc.small,
 #'                                      keep.child.object.name = FALSE,
@@ -55,7 +62,7 @@
 #' ### A new UMAP called "rp" will be created; by default, cell cluster information is stored in a Seurat metadata column called "subcluster_idents"
 #' RunDimPlot(my.pi, reduction = "rp", group.by = "subcluster_idents",label = TRUE, raster = FALSE)
 #'
-#' ## Example 3: create a Pi object with user-defined parameters for re-projection (multi-level reprojection)
+#' ## Example 4: create a Pi object with user-defined parameters for re-projection (multi-level reprojection)
 #' ### level 1: integrate T cell and its subclusters
 #' subclusters <- list("CD4mem" = "csle.cd4.mem.small", "Treg" = "csle.treg.small")
 #' tcell.pi <- CreatePostIntegrationObject(object = csle.tcell.small, rp.weight = 0,
@@ -157,12 +164,21 @@ CreatePostIntegrationObject <- function(object,
   ds <- NULL
   cell.prop <-NULL
   if(!is.null(parent.object)){
-    if(!inherits(parent.object, "Seurat")){stop("Parent object must be a Seurat object")}
-    parent.object.name = deparse(substitute(parent.object))
-    parent.key <- ifelse(is.null(parent.key), parent.object.name, parent.key)
-    parent.meta.data <- PiParentMetaData(data = parent.object[[]],
-                                         parent.name = parent.key)
-    CheckPiData(parent.meta.data, seurat.obj = object)
+    if(!inherits(parent.object, "Seurat") & !(is.data.frame(parent.object))){stop("Parent object must be a Seurat object or a data frame containing metadata from Seurat object!")}
+    if(inherits(parent.object, "Seurat")){
+      parent.object.name = deparse(substitute(parent.object))
+      parent.key <- ifelse(is.null(parent.key), parent.object.name, parent.key)
+      parent.meta.data <- PiParentMetaData(data = parent.object[[]],
+                                           parent.name = parent.key)
+      CheckPiData(parent.meta.data, seurat.obj = object)
+    }
+    if(is.data.frame(parent.object)){
+      if(is.null(parent.key)){stop('Argument \'parent.key\' cannot be NULL while \'parent.object\' is a data frame!')}
+      parent.meta.data <- PiParentMetaData(data = parent.object,
+                                           parent.name = parent.key)
+      CheckPiData(parent.meta.data, seurat.obj = object)
+    }
+
   }else{
     parent.meta.data <- NULL
   }

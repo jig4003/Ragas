@@ -14,6 +14,7 @@
 #' @param add.points Whether to plot data
 #' @param points.size Size for data points
 #' @param column.fontsize,row.fontsize,row.title.fontsize,legend.fontsize,legend.title.fontsize,features.fontsize Font size for figure and legend
+#' @param column.fontface,row.fontface,features.fontface Fontface for column/row/feature labels either "plain", "bold", "italic" or "bold.italic" (default: "plain")
 #' @param column.names.rotation Rotation for column names
 #' @param axis.text.hjust,axis.text.vjust Horizontal/vertical justification (in [0, 1]) for axis text (default: 0.5)
 #' @param colors The colors to fill the violin plot when \code{color.by} is set to "median.exp" or "mean.exp"
@@ -36,7 +37,9 @@
 StackedVlnPlot <- function(object, features, feature.annotation = NULL,feature.annotation.cols = NULL,
                            assay = 'RNA', split.by = NULL, color.by = 'features', clust.row = FALSE,clust.column = TRUE,
                            add.points = FALSE,points.size = 0.1,
-                           column.fontsize = 12, row.fontsize = 8, row.title.fontsize = 15,
+                           column.fontsize = 12, row.fontsize = 8,
+                           column.fontface = 'plain', row.fontface = 'plain', features.fontface = 'plain',
+                           row.title.fontsize = 15,
                            legend.fontsize = 12, legend.title.fontsize = 15, features.fontsize = 12,
                            column.names.rotation = 0,
                            axis.text.hjust = 0.5, axis.text.vjust = 0.5,
@@ -176,12 +179,14 @@ StackedVlnPlot <- function(object, features, feature.annotation = NULL,feature.a
         geom_violin(scale = "width", adjust = 1, trim = TRUE) + p.add.points +
         facet_grid(rows =vars(Gene), scales = 'free_y' ) +
         theme(axis.title.x = element_blank(),
-              axis.text.x = element_text(size = column.fontsize, angle = column.names.rotation, hjust = axis.text.hjust, vjust = axis.text.vjust),
-              axis.title.y = element_text(size = row.title.fontsize), axis.text.y = element_text(size = row.fontsize),
+              axis.text.x = element_text(size = column.fontsize, face = column.fontface,
+                                         angle = column.names.rotation, hjust = axis.text.hjust, vjust = axis.text.vjust),
+              axis.title.y = element_text(size = row.title.fontsize),
+              axis.text.y = element_text(size = row.fontsize, face = row.fontface),
               legend.title = element_text(size = legend.title.fontsize, hjust = 0.5), legend.text = element_text(size = legend.fontsize),
               legend.position = legend.position,legend.title.align  = 0.5,
               strip.background = element_blank(),
-              strip.text.y = element_text(angle = 0,size = features.fontsize, hjust = 0),
+              strip.text.y = element_text(angle = 0,size = features.fontsize, face =features.fontface, hjust = 0),
               panel.background = element_rect(fill = NA, color = 'black')) +
         scale_y_continuous(expand = c(0,0)) +
         labs(y = 'Expression', fill = legend.title) + color.values
@@ -193,12 +198,14 @@ StackedVlnPlot <- function(object, features, feature.annotation = NULL,feature.a
         geom_violin(scale = "width", adjust = 1, trim = TRUE) + p.add.points +
         facet_grid(rows =vars(Gene), scales = 'free_y' ) +
         theme(axis.title.x = element_blank(),
-              axis.text.x = element_text(size = column.fontsize, angle = column.names.rotation, hjust = axis.text.hjust, vjust = axis.text.vjust),
-              axis.title.y = element_text(size = row.title.fontsize), axis.text.y = element_text(size = row.fontsize),
+              axis.text.x = element_text(size = column.fontsize, face = column.fontface,
+                                         angle = column.names.rotation, hjust = axis.text.hjust, vjust = axis.text.vjust),
+              axis.title.y = element_text(size = row.title.fontsize),
+              axis.text.y = element_text(size = row.fontsize, face = row.fontface),
               legend.title = element_text(size = legend.title.fontsize), legend.text = element_text(size = legend.fontsize),
               legend.position = legend.position,
               strip.background = element_blank(),
-              strip.text.y = element_text(angle = 0,size = features.fontsize, hjust = 0),
+              strip.text.y = element_text(angle = 0,size = features.fontsize, face =features.fontface, hjust = 0),
               panel.background = element_rect(fill = NA, color = 'black')) +
         scale_y_continuous(expand = c(0,0)) +
         labs(y = 'Expression', fill = legend.title) + color.values
@@ -265,12 +272,14 @@ StackedVlnPlot <- function(object, features, feature.annotation = NULL,feature.a
         geom_violin(scale = "width", adjust = 1, trim = TRUE) + p.add.points +
         facet_grid(rows =vars(Gene), scales = 'free_y' ) +
         theme(axis.title.x = element_blank(),
-              axis.text.x = element_text(size = column.fontsize, angle = column.names.rotation, hjust = axis.text.hjust, vjust = axis.text.vjust),
-              axis.title.y = element_text(size = row.title.fontsize), axis.text.y = element_text(size = row.fontsize),
+              axis.text.x = element_text(size = column.fontsize, face = column.fontface,
+                                         angle = column.names.rotation, hjust = axis.text.hjust, vjust = axis.text.vjust),
+              axis.title.y = element_text(size = row.title.fontsize),
+              axis.text.y = element_text(size = row.fontsize, face = row.fontface),
               legend.title = element_text(size = legend.title.fontsize, hjust = 0.5), legend.text = element_text(size = legend.fontsize),
               legend.position = legend.position,legend.title.align  = 0.5,
               strip.background = element_blank(),
-              strip.text.y = element_text(angle = 0,size = features.fontsize, hjust = 0),
+              strip.text.y = element_text(angle = 0,size = features.fontsize,face =features.fontface, hjust = 0),
               panel.background = element_rect(fill = NA, color = 'black')) +
         scale_y_continuous(expand = c(0,0)) +
         labs(y = 'Expression', fill = legend.title) + color.values
@@ -283,12 +292,14 @@ StackedVlnPlot <- function(object, features, feature.annotation = NULL,feature.a
         geom_violin(scale = "width", adjust = 1, trim = TRUE) + p.add.points +
         facet_grid(rows =vars(Gene), scales = 'free_y' ) +
         theme(axis.title.x = element_blank(),
-              axis.text.x = element_text(size = column.fontsize, angle = column.names.rotation, hjust = axis.text.hjust, vjust = axis.text.vjust),
-              axis.title.y = element_text(size = row.title.fontsize), axis.text.y = element_text(size = row.fontsize),
+              axis.text.x = element_text(size = column.fontsize, face = column.fontface,
+                                         angle = column.names.rotation, hjust = axis.text.hjust, vjust = axis.text.vjust),
+              axis.title.y = element_text(size = row.title.fontsize),
+              axis.text.y = element_text(size = row.fontsize, face = row.fontface),
               legend.title = element_text(size = legend.title.fontsize), legend.text = element_text(size = legend.fontsize),
               legend.position = legend.position,
               strip.background = element_blank(),
-              strip.text.y = element_text(angle = 0,size = features.fontsize, hjust = 0),
+              strip.text.y = element_text(angle = 0,size = features.fontsize,face =features.fontface, hjust = 0),
               panel.background = element_rect(fill = NA, color = 'black')) +
         scale_y_continuous(expand = c(0,0)) +
         labs(y = 'Expression', fill = legend.title) + color.values
@@ -358,12 +369,14 @@ StackedVlnPlot <- function(object, features, feature.annotation = NULL,feature.a
         geom_violin(scale = "width", adjust = 1, trim = TRUE) + p.add.points +
         facet_grid(rows =vars(Gene), scales = 'free_y' ) +
         theme(axis.title.x = element_blank(),
-              axis.text.x = element_text(size = column.fontsize, angle = column.names.rotation, hjust = axis.text.hjust, vjust = axis.text.vjust),
-              axis.title.y = element_text(size = row.title.fontsize), axis.text.y = element_text(size = row.fontsize),
+              axis.text.x = element_text(size = column.fontsize,face = column.fontface,
+                                         angle = column.names.rotation, hjust = axis.text.hjust, vjust = axis.text.vjust),
+              axis.title.y = element_text(size = row.title.fontsize),
+              axis.text.y = element_text(size = row.fontsize, face = row.fontface),
               legend.title = element_text(size = legend.title.fontsize, hjust = 0.5), legend.text = element_text(size = legend.fontsize),
               legend.position = legend.position,legend.title.align  = 0.5,
               strip.background = element_blank(),
-              strip.text.y = element_text(angle = 0,size = features.fontsize, hjust = 0),
+              strip.text.y = element_text(angle = 0,size = features.fontsize, face =features.fontface, hjust = 0),
               panel.background = element_rect(fill = NA, color = 'black')) +
         scale_y_continuous(expand = c(0,0)) +
         labs(y = 'Expression', fill = legend.title) + color.values
@@ -376,12 +389,14 @@ StackedVlnPlot <- function(object, features, feature.annotation = NULL,feature.a
         geom_violin(scale = "width", adjust = 1, trim = TRUE) + p.add.points +
         facet_grid(rows =vars(Gene), scales = 'free_y' ) +
         theme(axis.title.x = element_blank(),
-              axis.text.x = element_text(size = column.fontsize, angle = column.names.rotation, hjust = axis.text.hjust, vjust = axis.text.vjust),
-              axis.title.y = element_text(size = row.title.fontsize), axis.text.y = element_text(size = row.fontsize),
+              axis.text.x = element_text(size = column.fontsize, face = column.fontface,
+                                         angle = column.names.rotation, hjust = axis.text.hjust, vjust = axis.text.vjust),
+              axis.title.y = element_text(size = row.title.fontsize),
+              axis.text.y = element_text(size = row.fontsize, face = row.fontface),
               legend.title = element_text(size = legend.title.fontsize), legend.text = element_text(size = legend.fontsize),
               legend.position = legend.position,
               strip.background = element_blank(),
-              strip.text.y = element_text(angle = 0,size = features.fontsize, hjust = 0),
+              strip.text.y = element_text(angle = 0,size = features.fontsize,face =features.fontface, hjust = 0),
               panel.background = element_rect(fill = NA, color = 'black')) +
         scale_y_continuous(expand = c(0,0)) +
         labs(y = 'Expression', fill = legend.title) + color.values
@@ -456,12 +471,14 @@ StackedVlnPlot <- function(object, features, feature.annotation = NULL,feature.a
         geom_violin(scale = "width", adjust = 1, trim = TRUE) +  p.add.points +
         facet_grid(rows =vars(Gene), scales = 'free_y' ) +
         theme(axis.title.x = element_blank(),
-              axis.text.x = element_text(size = column.fontsize, angle = column.names.rotation, hjust = axis.text.hjust, vjust = axis.text.vjust),
-              axis.title.y = element_text(size = row.title.fontsize), axis.text.y = element_text(size = row.fontsize),
+              axis.text.x = element_text(size = column.fontsize, face = column.fontface,
+                                         angle = column.names.rotation, hjust = axis.text.hjust, vjust = axis.text.vjust),
+              axis.title.y = element_text(size = row.title.fontsize),
+              axis.text.y = element_text(size = row.fontsize, face = row.fontface),
               legend.title = element_text(size = legend.title.fontsize, hjust = 0.5), legend.text = element_text(size = legend.fontsize),
               legend.position = legend.position,legend.title.align  = 0.5,
               strip.background = element_blank(),
-              strip.text.y = element_text(angle = 0,size = features.fontsize, hjust = 0),
+              strip.text.y = element_text(angle = 0,size = features.fontsize, face =features.fontface, hjust = 0),
               panel.background = element_rect(fill = NA, color = 'black')) +
         scale_y_continuous(expand = c(0,0)) +
         labs(y = 'Expression', fill = legend.title) + color.values
@@ -475,12 +492,14 @@ StackedVlnPlot <- function(object, features, feature.annotation = NULL,feature.a
         geom_violin(scale = "width", adjust = 1, trim = TRUE) + p.add.points +
         facet_grid(rows =vars(Gene), scales = 'free_y' ) +
         theme(axis.title.x = element_blank(),
-              axis.text.x = element_text(size = column.fontsize, angle = column.names.rotation, hjust = axis.text.hjust, vjust = axis.text.vjust),
-              axis.title.y = element_text(size = row.title.fontsize), axis.text.y = element_text(size = row.fontsize),
+              axis.text.x = element_text(size = column.fontsize, face = column.fontface,
+                                         angle = column.names.rotation, hjust = axis.text.hjust, vjust = axis.text.vjust),
+              axis.title.y = element_text(size = row.title.fontsize),
+              axis.text.y = element_text(size = row.fontsize, face = row.fontface),
               legend.title = element_text(size = legend.title.fontsize), legend.text = element_text(size = legend.fontsize),
               legend.position = legend.position,
               strip.background = element_blank(),
-              strip.text.y = element_text(angle = 0,size = features.fontsize, hjust = 0),
+              strip.text.y = element_text(angle = 0,size = features.fontsize, face =features.fontface, hjust = 0),
               panel.background = element_rect(fill = NA, color = 'black')) +
         scale_y_continuous(expand = c(0,0)) +
         labs(y = 'Expression', fill = legend.title) + color.values

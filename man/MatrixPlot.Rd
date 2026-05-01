@@ -16,6 +16,8 @@ MatrixPlot(
   max.exp = 2,
   column.fontsize = 12,
   row.fontsize = 12,
+  column.fontface = "plain",
+  row.fontface = "plain",
   column.anno.cols = NULL,
   column.anno.name.fontsize = 15,
   column.anno.name.rot = 45,
@@ -49,6 +51,10 @@ and \code{\link[Seurat]{FindConservedMarkers}}, respectively. In the current ver
 \item{column.fontsize}{Font size for column texts (default: 12)}
 
 \item{row.fontsize}{Font size for row texts (default: 12)}
+
+\item{column.fontface}{Fontface for column labels, either "plain", "bold", "italic", "oblique" or "bold.italic" (default: "plain")}
+
+\item{row.fontface}{Fontface for row labels, either "plain", "bold", "italic", "oblique" or "bold.italic" (default: "plain")}
 
 \item{column.anno.cols}{Named character vector with colors for column annotations (default: NULL). Names should match Idents of object.}
 

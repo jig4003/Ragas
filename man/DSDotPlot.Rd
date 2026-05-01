@@ -33,6 +33,8 @@ DSDotPlot(
   deg.col = NULL,
   column.fontsize = 12,
   row.fontsize = 12,
+  column.fontface = "plain",
+  row.fontface = "plain",
   column.names.rotation = 90,
   axis.text.hjust = 0.5,
   axis.text.vjust = 0.5,
@@ -84,6 +86,8 @@ DSDotPlot(
 \item{deg.col}{Color of the highlight}
 
 \item{column.fontsize, row.fontsize}{Column and row font size}
+
+\item{column.fontface, row.fontface}{Fontface for column/row labels either "plain", "bold", "italic" or "bold.italic" (default: "plain")}
 
 \item{column.names.rotation}{Rotation for column names}
 
