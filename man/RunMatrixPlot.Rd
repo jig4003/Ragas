@@ -7,6 +7,7 @@
 RunMatrixPlot(
   object,
   markers.key,
+  assay = NULL,
   alt.assay.name = "RNAalt",
   top.n = 5,
   up.genes = TRUE,
@@ -29,6 +30,8 @@ RunMatrixPlot(
 \item{object}{A \code{\link[Ragas]{Pi}} object}
 
 \item{markers.key}{A unique identifier for \code{\link[Ragas]{RunFindAllMarkers}} to pull results from the \code{markers} field}
+
+\item{assay}{Seurat assay name}
 
 \item{alt.assay.name}{Name of the alternative assay to store RC normalized data}
 
