@@ -16,6 +16,7 @@
 #'
 #' @param object A \code{\link[Ragas]{Pi}} object
 #' @param markers.key A unique identifier for \code{\link[Ragas]{RunFindAllMarkers}} to pull results from the \code{markers} field
+#' @param assay Seurat assay name
 #' @param alt.assay.name Name of the alternative assay to store RC normalized data
 #' @param top.n Number of top markers to plot (per identity group)
 #' @param up.genes Whether to plot the up-regulated genes (default: TRUE)
@@ -49,6 +50,7 @@
 #'
 RunMatrixPlot <- function(object,
                           markers.key,
+                          assay = NULL,
                           alt.assay.name = "RNAalt",
                           top.n = 5,
                           up.genes = TRUE,
@@ -109,7 +111,7 @@ RunMatrixPlot <- function(object,
     top.markers <- unique(unlist(top.markers.list))
 
     ## Re-run normalization using RC method
-    dat <- GetAssayData(object$seurat.obj,assay = 'RNA',slot = 'counts')
+    dat <- GetAssayData(object$seurat.obj, assay = assay, slot = 'counts')
     RNA.alt <- CreateAssayObject(count = dat)
     object$seurat.obj[[alt.assay.name]] <- RNA.alt
     DefaultAssay(object$seurat.obj) <- alt.assay.name
