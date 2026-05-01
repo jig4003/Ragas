@@ -9,7 +9,8 @@
 \usage{
 PiData(
   data,
-  type = c("un-specified", "exp.freq", "markers", "ds", "cell.prop", "parent.meta.data"),
+  type = c("un-specified", "exp.freq", "markers", "ds", "cell.prop",
+    "parent.meta.data"),
   ident,
   method = NULL,
   param = NULL
