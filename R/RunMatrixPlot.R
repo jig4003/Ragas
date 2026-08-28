@@ -20,6 +20,7 @@
 #' @param alt.assay.name Name of the alternative assay to store RC normalized data
 #' @param top.n Number of top markers to plot (per identity group)
 #' @param up.genes Whether to plot the up-regulated genes (default: TRUE)
+#' @param min.pct Minimum fraction of cells expressing a gene in either group. If specified, genes with both pct.1 and pct.2 below this value are excluded (default: NULL).
 #' @param heatmap.cols Colors to plot the heatmap (optional). A character vector with colors for low, medium and high expression.
 #' @param min.exp The minimum expression value to plot (default: -1.5)
 #' @param max.exp The maximum expression value to plot (default: 1.5)
@@ -56,6 +57,7 @@ RunMatrixPlot <- function(object,
                           alt.assay.name = "RNAalt",
                           top.n = 5,
                           up.genes = TRUE,
+                          min.pct = NULL,
                           heatmap.cols = NULL,
                           min.exp = -1.5,
                           max.exp = 1.5,
@@ -81,6 +83,20 @@ RunMatrixPlot <- function(object,
         stop("Invalid key \"",markers.key, "\" for the markers object. The following key(s) are available:\n    ", paste(names(object$markers), collapse = "\n    "),"\nEither choose an availble key or rerun RunFindAllMarkers.")
       }else{
         my.markers <- object$markers[[markers.key]][["data"]]
+
+        if(!is.null(min.pct)){
+          if(!is.numeric(min.pct) || length(min.pct) != 1 || is.na(min.pct) || min.pct < 0 || min.pct > 1){
+            stop("\"min.pct\" must be a single numeric value between 0 and 1.")
+          }
+          
+          if(!all(c("pct.1", "pct.2") %in% colnames(my.markers))){
+            stop("\"min.pct\" requires \"pct.1\" and \"pct.2\" columns in the marker results.")
+          }
+          n.before <- nrow(my.markers)
+          my.markers <- my.markers[my.markers$pct.1 >= min.pct | my.markers$pct.2 >= min.pct, , drop = FALSE]
+          message("Filtered ", n.before - nrow(my.markers), " marker entries with both pct.1 and pct.2 < ", min.pct, " before plotting.")
+        }
+        
         my.marker.type <- unlist(strsplit(markers.key, split = "|", fixed = TRUE))[3]
         my.marker.idents <- unlist(strsplit(markers.key, split = "|", fixed = TRUE))[2]
 
@@ -116,7 +132,7 @@ RunMatrixPlot <- function(object,
 
     ## Re-run normalization using RC method
     dat <- GetAssayData(object$seurat.obj, assay = assay, slot = 'counts')
-    RNA.alt <- CreateAssayObject(count = dat)
+    RNA.alt <- CreateAssayObject(counts = dat)
     object$seurat.obj[[alt.assay.name]] <- RNA.alt
     DefaultAssay(object$seurat.obj) <- alt.assay.name
     object$seurat.obj <- NormalizeData(object$seurat.obj,normalization.method = 'RC')
