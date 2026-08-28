@@ -21,7 +21,7 @@ RunProportionPlot(
   unpool.ncol = 5,
   unpool.plot.p.sig = TRUE,
   unpool.plot.p.adj.sig = FALSE,
-  unpool.pt.szie = 1,
+  unpool.pt.size = 1,
   unpool.sig.size = 6,
   unpool.sig.bracket.color = "black",
   unpool.sig.color = "black",
@@ -70,6 +70,8 @@ RunProportionPlot(
 
 \item{unpool.plot.p.adj.sig}{Whether to highlight tests with significant adjusted p-values (default: FALSE)}
 
+\item{unpool.pt.size}{Point size for box plot (default: 1)}
+
 \item{unpool.sig.size, unpool.sig.bracket.color, unpool.sig.color, unpool.sig.bracket.width}{Additional aesthetic parameters that control highlighting of significant tests}
 
 \item{title.text.size, axis.title.size, axis.text.size, legend.title.size, legend.text.size}{Text size for plot title, axis, or legend (default: 12)}
@@ -79,8 +81,6 @@ RunProportionPlot(
 \item{axis.text.hjust, axis.text.vjust}{Horizontal/vertical justification (in [0, 1]) for axis text (default: 1)}
 
 \item{random.col.seed}{Set seed to control colors}
-
-\item{unpool.pt.size}{Point size for box plot (default: 1)}
 }
 \value{
 When \code{return.value} is "ggplot", a ggplot object will be returned; when \code{return.value} is "stats" and \code{object} is a Seurat object,

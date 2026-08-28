@@ -11,6 +11,7 @@ RunMatrixPlot(
   alt.assay.name = "RNAalt",
   top.n = 5,
   up.genes = TRUE,
+  min.pct = NULL,
   heatmap.cols = NULL,
   min.exp = -1.5,
   max.exp = 1.5,
@@ -40,6 +41,8 @@ RunMatrixPlot(
 \item{top.n}{Number of top markers to plot (per identity group)}
 
 \item{up.genes}{Whether to plot the up-regulated genes (default: TRUE)}
+
+\item{min.pct}{Minimum fraction of cells expressing a gene in either group. If specified, genes with both pct.1 and pct.2 below this value are excluded (default: NULL).}
 
 \item{heatmap.cols}{Colors to plot the heatmap (optional). A character vector with colors for low, medium and high expression.}
 

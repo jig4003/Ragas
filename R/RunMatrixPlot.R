@@ -88,15 +88,17 @@ RunMatrixPlot <- function(object,
           if(!is.numeric(min.pct) || length(min.pct) != 1 || is.na(min.pct) || min.pct < 0 || min.pct > 1){
             stop("\"min.pct\" must be a single numeric value between 0 and 1.")
           }
-          
+
           if(!all(c("pct.1", "pct.2") %in% colnames(my.markers))){
             stop("\"min.pct\" requires \"pct.1\" and \"pct.2\" columns in the marker results.")
           }
           n.before <- nrow(my.markers)
           my.markers <- my.markers[my.markers$pct.1 >= min.pct | my.markers$pct.2 >= min.pct, , drop = FALSE]
-          message("Filtered ", n.before - nrow(my.markers), " marker entries with both pct.1 and pct.2 < ", min.pct, " before plotting.")
+          n.filtered <- n.before - nrow(my.markers)
+          pct.filtered <- n.filtered / n.before * 100
+          message("Filtered ", n.filtered, " marker entries (", round(pct.filtered, 1), "%) with both pct.1 and pct.2 < ", min.pct, " before plotting.")
         }
-        
+
         my.marker.type <- unlist(strsplit(markers.key, split = "|", fixed = TRUE))[3]
         my.marker.idents <- unlist(strsplit(markers.key, split = "|", fixed = TRUE))[2]
 

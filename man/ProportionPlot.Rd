@@ -12,7 +12,7 @@ ProportionPlot(
   colors = NULL,
   prop.by = "cluster",
   split.by = NULL,
-  parent.meta = parent.meta,
+  parent.meta = NULL,
   unpool.plot.type = "boxplot",
   var.unpool,
   n.col = 5,
